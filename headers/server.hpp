@@ -27,7 +27,8 @@ class server
         void    start_server();
     private : 
         void    create_socket(std :: string port);
-
+        void    new_connection();
+        void    add_to_poll(int fd);
 
 };
 

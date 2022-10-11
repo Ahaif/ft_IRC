@@ -16,6 +16,26 @@ server :: server(std :: string name, int max_online, std :: string port, std:: s
 	this->_online_client++;
 }
 
+
+void server :: new_connection()
+{
+	struct sockaddr_storage	remotaddr;
+	socklen_t				addrlen;
+	int 					clientFD;
+
+	addrlen = sizeof remotaddr;
+	clientFD = accept(this->_socketFd, (struct sockaddr*)&remotaddr, &addrlen);
+	if (clientFD == -1)
+		std::cout << "accept() error: " << strerror(errno) << std::endl;
+	else
+	{
+		add_to_poll(clientFD);
+		std :: cout << "fd added to Poll\n";
+		
+	}
+
+}
+
 void server :: start_server()
 {
     while(42)
@@ -31,10 +51,12 @@ void server :: start_server()
 		{
 			if (this->_pfds[i].revents & POLLIN)
 			{
-				if (this->_pfds[i].fd == this->_socketFd)
-					// If listener is ready to read, handle new connection
-				
-					// If not the listener, we're just a regular client
+				if (this->_pfds[i].fd == this->_socketFd) // 
+					new_connection();
+					// Server socket add to poll and assign new FD // new client
+                //else
+					// handle request client
+                    // exit(1);
 			}
 		}
 	}
