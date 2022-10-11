@@ -30,7 +30,13 @@ void server :: new_connection()
 	else
 	{
 		add_to_poll(clientFD);
-		std :: cout << "fd added to Poll\n";
+			std::string welcome = "First Connection This is a Welcome MSG\n";
+		if (send(clientFD, welcome.c_str(), welcome.length(), 0) == -1)
+			std::cout << "send() error: " << strerror(errno) << std::endl;
+		std::cout  << "new connection from "
+			<< inet_ntoa(((struct sockaddr_in*)&remotaddr)->sin_addr)
+			<< " on socket " << clientFD << std::endl;
+		std :: cout << "MSG SENT \n";
 		
 	}
 
@@ -56,9 +62,13 @@ void server :: start_server()
 					// Server socket add to poll and assign new FD // new client
                 //else
 					// handle request client
-                    // exit(1);
 			}
 		}
 	}
         
+}
+server:: ~server()
+{
+	if (this->_pfds)
+		delete [] this->_pfds;
 }

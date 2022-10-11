@@ -3,12 +3,23 @@
 #define SERVER_HPP
 
 #include <iostream>
-#include <netdb.h>
-#include<string.h>
+#include <string>
+#include <vector>
+#include <map>
 #include <unistd.h>
-#include <struct.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <cstring>
+#include <algorithm>
+#include <utility>
+#include <fstream>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <poll.h>
-
+#include <time.h>
 
 
 class server
@@ -24,6 +35,7 @@ class server
 
     public:
         server(std :: string name, int max_online, std :: string port, std :: string password);
+        ~server();
         void    start_server();
     private : 
         void    create_socket(std :: string port);
