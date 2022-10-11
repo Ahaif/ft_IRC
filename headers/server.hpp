@@ -41,6 +41,7 @@ class server
         void    create_socket(std :: string port);
         void    new_connection();
         void    add_to_poll(int fd);
+        void    handle_request(int i);
 
 };
 

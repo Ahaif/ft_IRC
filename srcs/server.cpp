@@ -59,9 +59,8 @@ void server :: start_server()
 			{
 				if (this->_pfds[i].fd == this->_socketFd) // 
 					new_connection();
-					// Server socket add to poll and assign new FD // new client
-                //else
-					// handle request client
+				else
+					handle_request(i);
 			}
 		}
 	}
