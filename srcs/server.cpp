@@ -36,7 +36,6 @@ void server :: new_connection()
 		std::cout  << "new connection from "
 			<< inet_ntoa(((struct sockaddr_in*)&remotaddr)->sin_addr)
 			<< " on socket " << clientFD << std::endl;
-		std :: cout << "MSG SENT \n";
 		
 	}
 

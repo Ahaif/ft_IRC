@@ -1,6 +1,6 @@
 #include "../headers/request.hpp"
 
-request :: request() : args(), cmd(), invalidMsg(false){};
+request :: request() : cmd(), args(), invalidMsg(false){};
 request::request( const request& x ) { *this = x; };
 request::~request() {};
 

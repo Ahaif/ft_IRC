@@ -7,7 +7,7 @@
 
 class request
 {
-    private:
+    public:
         std :: string                   cmd;
         std :: vector<std :: string>    args;
         bool                            invalidMsg;

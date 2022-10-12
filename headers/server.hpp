@@ -21,6 +21,9 @@
 #include <poll.h>
 #include <time.h>
 
+#include "request.hpp"
+
+class request;
 
 class server
 {
@@ -41,7 +44,10 @@ class server
         void    create_socket(std :: string port);
         void    new_connection();
         void    add_to_poll(int fd);
+        void    remove_from_poll(int fd);
         void    handle_request(int i);
+        std :: string   parse_request(std :: string req, int i);
+        request split_msg(std :: string req);
 
 };
 

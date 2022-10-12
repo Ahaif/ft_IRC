@@ -16,3 +16,11 @@ void server :: add_to_poll(int fd)
 
 
 }
+
+void server :: remove_from_poll(int fd)
+{
+    close(this->_pfds[fd].fd);
+	this->_pfds[fd] = this->_pfds[this->_online_client - 1];
+	//delete client from map
+	this->_online_client--;
+}

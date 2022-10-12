@@ -13,7 +13,10 @@ CPP_STANDARD = -std=c++98
 # Exercise files variable
 SRC_FILES = create_socket.cpp \
 poll.cpp \
+request.cpp \
 server.cpp \
+handling_request.cpp\
+request_parsing.cpp\
 
 
 HEADERS_FILES = headers/server.hpp
