@@ -63,8 +63,27 @@ void server :: start_server()
 			}
 		}
 	}
-        
 }
+
+
+std :: string server :: set_pssw(request req, int fd)
+{
+	if (req.args.size() < 1)
+		std :: cout << "PASS error Args\n";
+	if(this->_clientMap[fd]->get_registration())
+		std :: cout << "Client already registred\n";
+	if(req.args[1] != this->_password)
+		std :: cout << "Password incorrect\n";
+	else
+		this->_clientMap[fd]->set_connection();
+	
+	return ("");
+
+}
+
+
+
+
 server:: ~server()
 {
 	if (this->_pfds)
