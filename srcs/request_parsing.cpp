@@ -55,23 +55,20 @@ request server :: split_msg(std :: string  msg)
 
 std :: string server :: parse_request(std :: string msg, int clientFd)
 {
-
-
-    clientFd = 0;
     request req(split_msg(msg));
-    std :: cout << "Cmd req is : " << req.cmd << std :: endl;
-    std :: cout << "-----------------" << std :: endl;
-    for(unsigned long i = 0; i < req.args.size(); i++)
-    {
-        std :: cout << "Args requests : " << req.args[i] << std :: endl;
-    }
-    std :: cout << "-----------------" << std :: endl;
+    // std :: cout << "Cmd req is : " << req.cmd << std :: endl;
+    // std :: cout << "-----------------" << std :: endl;
+    // for(unsigned long i = 0; i < req.args.size(); i++)
+    // {
+    //     std :: cout << "Args requests : " << req.args[i] << std :: endl;
+    // }
+    // std :: cout << "-----------------" << std :: endl;
     if (req.invalidMsg)
 		return ("Invalid message!\n");
 	if (req.cmd == "PASS")
-		return (" execute Pass CMD");
+		return (set_pssw(req,clientFd));
 	else if (req.cmd == "NICK")
-		return (" execute Pass CMD");
+		return (registerName(req, clientFd));
 	else if (req.cmd == "USER")
 		return (" execute Pass CMD");
 	else if (req.cmd == "OPER")

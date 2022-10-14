@@ -18,6 +18,7 @@ server.cpp \
 handling_request.cpp\
 request_parsing.cpp\
 client.cpp\
+commands.cpp\
 
 
 HEADERS_FILES = headers/server.hpp

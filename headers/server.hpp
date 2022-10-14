@@ -38,6 +38,7 @@ class server
         std::string     _name;
         std :: string   _password;
         std :: map<int, client*> _clientMap;
+        std :: vector<std :: string> _clientName;
 
     public:
         server(std :: string name, int max_online, std :: string port, std :: string password);
@@ -52,6 +53,7 @@ class server
         std :: string   parse_request(std :: string req, int i);
         request         split_msg(std :: string req);
         std :: string   set_pssw(request req, int fd);
+        std :: string   registerName(request req, int fd);
 
 };
 

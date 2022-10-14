@@ -10,7 +10,7 @@ void server :: add_to_poll(int fd)
        this->_pfds = (struct pollfd *)realloc(this->_pfds, this->_max_online);
     }
     this->_pfds[this->_online_client].fd = fd;
-    this->_pfds[this->_online_client].events = POLL_IN;
+    this->_pfds[this->_online_client].events = POLLIN;
     // add new client to map
     this->_clientMap.insert(std :: pair<int, client*>(fd, new client(fd)));
     this->_online_client++;
