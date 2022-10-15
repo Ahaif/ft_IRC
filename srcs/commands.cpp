@@ -39,3 +39,23 @@ std :: string server :: registerName(request req, int fd)
 	}
 	return ("");
 };
+
+std :: string server :: set_userName(request req, int fd)
+{
+	if(!this->_clientMap[fd]->get_connection())
+		return("You need to authenticate first");
+	if(!this->_clientMap[fd]->get_registration())
+		return("User already registred...");
+	if (req.args.size() < 4)
+		return("Error size args...");
+	this->_clientMap[fd]->set_Username(req.args[0]);
+	this->_clientMap[fd]->set_FullName(req.args[4]);
+	if (this->_clientMap[fd]->get_Username() != "") 
+	{
+		this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
+		this->_clientMap[fd]->set_connection();
+		return ("Welcome to the Internet Relay Network ");
+	}
+	return ("");
+	
+}

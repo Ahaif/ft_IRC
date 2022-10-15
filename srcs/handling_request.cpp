@@ -21,8 +21,8 @@ void server ::  handle_request(int clientFd)
 	else
 	{
 		std::string message(buf, strlen(buf) - 1);
-		// if (message.back() == '\r')
-		// 	message.erase(message.end() - 1);
+		if (message[message.size()] ==  '\r')
+			message.erase(message.end() - 1);
 		std::string ret = parse_request(message, this->_pfds[clientFd].fd);
 
 

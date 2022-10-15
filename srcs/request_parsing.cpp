@@ -32,7 +32,7 @@ request server :: split_msg(std :: string  msg)
         }
         if (msg[i] == ':')
         {
-            if (i != 0)
+            if (msg[i] && msg[i -1] != ' ')
             {
                 req.invalidMsg = true;
 		        return (req);
@@ -40,6 +40,11 @@ request server :: split_msg(std :: string  msg)
             req.args.push_back(msg.substr(i + 1, msg.length()));
             req.cmd = req.args[0];
             req.args.erase(req.args.begin());
+            // if (req[i+1])
+			// {
+			// 	std :: cout << "error prefix args should be last parms"  << std :: endl;
+			// 	exit(-1);
+			// }
             return(req);
         }
         i++;
@@ -70,7 +75,7 @@ std :: string server :: parse_request(std :: string msg, int clientFd)
 	else if (req.cmd == "NICK")
 		return (registerName(req, clientFd));
 	else if (req.cmd == "USER")
-		return (" execute Pass CMD");
+		return (set_userName(req, clientFd));
 	else if (req.cmd == "OPER")
 		return (" execute Pass CMD");
 	else if (req.cmd == "MODE")

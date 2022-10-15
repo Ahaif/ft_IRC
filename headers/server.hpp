@@ -54,6 +54,7 @@ class server
         request         split_msg(std :: string req);
         std :: string   set_pssw(request req, int fd);
         std :: string   registerName(request req, int fd);
+        std :: string   set_userName(request req, int fd);
 
 };
 
