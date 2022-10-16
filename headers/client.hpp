@@ -3,7 +3,16 @@
 
 #include "server.hpp"
 
-
+struct Modes
+{
+	bool	away;
+	bool	invisible;
+	bool	wallops;
+	bool	restricted;
+	bool	op;
+	bool	localOp;
+	bool	server;
+};
 
 
 
@@ -13,6 +22,7 @@ class client
         int                                 _clientfd;
         bool                                _is_registred;
         bool                                _is_connected;
+        bool                                _is_operator;
         std :: string                       _NickName;
         std :: string                       _UserName;
         std :: string                       _FullName;
@@ -20,6 +30,7 @@ class client
 		std::string							_ID;
 		struct sockaddr_storage				_remotaddr;
 		socklen_t							_addrlen;
+        struct Modes                        _modes;
 
         //add Modes data as struct
 		//add map fpr joined channel
@@ -35,6 +46,7 @@ class client
         int                     get_Clientfd();
         bool                    get_registration();
         bool                    get_connection();
+        bool                    get_is_operator();
         std :: string           get_Nickname();
         std :: string           get_Username();
         std :: string           get_FullName();
@@ -55,6 +67,7 @@ class client
         void    set_ID(std :: string id);
         void    set_remoteaddr(struct sockaddr_storage rmAdress);
         void    set_addrlen(socklen_t addLen);
+        void    set_operator();
     //function to check if the client is joined to a channel 
 
 };

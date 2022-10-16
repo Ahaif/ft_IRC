@@ -5,7 +5,7 @@ void server ::  handle_request(int clientFd)
 {
     //split request
     char buf[5000];
-	memset(&buf, 0, 5000);
+	
 	int nbytes = recv(this->_pfds[clientFd].fd, buf, sizeof(buf), 0);
 
 	if (nbytes <= 0)
@@ -21,11 +21,12 @@ void server ::  handle_request(int clientFd)
 	else
 	{
 		std::string message(buf, strlen(buf) - 1);
-		if (message[message.size()] ==  '\r')
-			message.erase(message.end() - 1);
+		// if (message[message.size()- 1] ==  '\r')
+		// 	message.erase(message.size() - 1);
 		std::string ret = parse_request(message, this->_pfds[clientFd].fd);
 
-
+		
 		std :: cout << ret << std :: endl;
 	}
+	memset(&buf, 0, 5000);
 }	

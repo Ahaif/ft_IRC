@@ -6,18 +6,19 @@ request server :: split_msg(std :: string  msg)
     request req;
     int i = 0;
     int j = 0;
+    int flag = 0;
 
     if (msg[i] == ' ' || !msg[i]) {
 		req.invalidMsg = true;
 		return (req);
 	}
     j = i;
-    std :: cout << " msg is: " << msg << std :: endl;
-    while(msg[i])
+    
+    while(msg[i] != 13 && msg[i] != 10)
     {
         if (msg[i] == ' ')
         {
-            if (i == 0)
+            if (i == 0) 
             {
                 req.invalidMsg = true;
 		        return (req);
@@ -32,6 +33,7 @@ request server :: split_msg(std :: string  msg)
         }
         if (msg[i] == ':')
         {
+            flag++;
             if (msg[i] && msg[i -1] != ' ')
             {
                 req.invalidMsg = true;
@@ -40,11 +42,11 @@ request server :: split_msg(std :: string  msg)
             req.args.push_back(msg.substr(i + 1, msg.length()));
             req.cmd = req.args[0];
             req.args.erase(req.args.begin());
-            // if (req[i+1])
-			// {
-			// 	std :: cout << "error prefix args should be last parms"  << std :: endl;
-			// 	exit(-1);
-			// }
+            if(flag > 1)
+            {
+                std :: cout << "error prefix args should be last parms"  << std :: endl;
+                exit(-1);
+            }
             return(req);
         }
         i++;
@@ -61,13 +63,13 @@ request server :: split_msg(std :: string  msg)
 std :: string server :: parse_request(std :: string msg, int clientFd)
 {
     request req(split_msg(msg));
-    // std :: cout << "Cmd req is : " << req.cmd << std :: endl;
-    // std :: cout << "-----------------" << std :: endl;
-    // for(unsigned long i = 0; i < req.args.size(); i++)
-    // {
-    //     std :: cout << "Args requests : " << req.args[i] << std :: endl;
-    // }
-    // std :: cout << "-----------------" << std :: endl;
+    std :: cout << "Cmd req is : " << req.cmd << std :: endl;
+    std :: cout << "-----------------" << std :: endl;
+    for(unsigned long i = 0; i < req.args.size(); i++)
+    {
+        std :: cout << "Args requests : " << req.args[i] << std :: endl;
+    }
+    std :: cout << "-----------------" << std :: endl;
     if (req.invalidMsg)
 		return ("Invalid message!\n");
 	if (req.cmd == "PASS")
@@ -77,7 +79,7 @@ std :: string server :: parse_request(std :: string msg, int clientFd)
 	else if (req.cmd == "USER")
 		return (set_userName(req, clientFd));
 	else if (req.cmd == "OPER")
-		return (" execute Pass CMD");
+		return (set_Oper(req,clientFd));
 	else if (req.cmd == "MODE")
 		return (" execute Pass CMD");
 	else if (req.cmd == "PRIVMSG")

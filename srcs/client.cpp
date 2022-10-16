@@ -49,4 +49,10 @@ void client :: set_Nickname(std :: string nickName){this->_NickName = nickName;}
 void client :: set_Username(std :: string UserName){this->_UserName = UserName;}
 void client :: set_FullName(std :: string FullName){this->_FullName = FullName;}
 void client :: set_ID(std :: string id){this->_ID = id;}
+void client :: set_operator()
+{
+	this->_is_operator = true;
+	this->_modes.op = true;
+	this->_modes.localOp = true;
+};
 

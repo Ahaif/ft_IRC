@@ -55,6 +55,7 @@ class server
         std :: string   set_pssw(request req, int fd);
         std :: string   registerName(request req, int fd);
         std :: string   set_userName(request req, int fd);
+        std :: string   set_Oper(request req, int fd);
 
 };
 

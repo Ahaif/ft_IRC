@@ -7,13 +7,20 @@ std :: string server :: set_pssw(request req, int fd)
 		return("PASS error Args\n");
 	if(this->_clientMap[fd]->get_registration())
 		return("Client already registred\n");
-	if(req.args[1] != this->_password)
-		return("Password incorrect\n");
-	else
+
+
+	std :: cout << "client passord is|" << req.args[0]<<"|"<< std :: endl;
+	std :: cout << "server passord is|" << this->_password<<"|"<< std :: endl;
+	
+	if(strcmp(req.args[0].c_str(), this->_password.c_str()) == 0)
+	{
 		this->_clientMap[fd]->set_connection();
+		return("PASSWORD set succesfuly");
+	}
+	else
+		return("Password incorrect why \n");
 	
 	return ("");
-
 }
 
 std :: string server :: registerName(request req, int fd)
@@ -35,27 +42,46 @@ std :: string server :: registerName(request req, int fd)
 	if (this->_clientMap[fd]->get_Username() != "") {
 		this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
 		this->_clientMap[fd]->set_connection();
-		return ("Welcome to the Internet Relay Network ");
+		return ("-------Welcome to the Internet Relay Network---------");
 	}
-	return ("");
+	return ("Nick Name setup  succesly ");
 };
 
 std :: string server :: set_userName(request req, int fd)
 {
 	if(!this->_clientMap[fd]->get_connection())
 		return("You need to authenticate first");
-	if(!this->_clientMap[fd]->get_registration())
+	if(this->_clientMap[fd]->get_registration())
 		return("User already registred...");
 	if (req.args.size() < 4)
 		return("Error size args...");
+
 	this->_clientMap[fd]->set_Username(req.args[0]);
 	this->_clientMap[fd]->set_FullName(req.args[4]);
+	this->_clientMap[fd]->set_registration();
 	if (this->_clientMap[fd]->get_Username() != "") 
 	{
 		this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
 		this->_clientMap[fd]->set_connection();
-		return ("Welcome to the Internet Relay Network ");
+		return ("--------Welcome to the Internet Relay Network-------");
 	}
 	return ("");
 	
+}
+
+
+std :: string server :: set_Oper(request req, int fd)
+{
+	if (!this->_clientMap[fd]->get_registration())
+		return ( "You have not registered");
+	if (req.args.size() < 2)
+		return ("Not enough parameters");
+	if (req.args[0] != "ADMIN")
+		return ( "Usernameincorrect");
+	if (req.args[1] != "abdel")
+		return ( "Password incorrect");
+	_clientMap[fd]->set_operator();
+	return ( "You are now an IRC operator");
+
+
 }
