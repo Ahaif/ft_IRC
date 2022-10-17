@@ -54,6 +54,7 @@ class client
         std :: string           get_ID();
         struct sockaddr_storage get_remoteaddr();
         socklen_t               get_addrlen();
+        struct Modes            get_modes();
 
     //setters
     public:
@@ -68,6 +69,7 @@ class client
         void    set_remoteaddr(struct sockaddr_storage rmAdress);
         void    set_addrlen(socklen_t addLen);
         void    set_operator();
+        std :: string   set_mode(std :: string);
     //function to check if the client is joined to a channel 
 
 };

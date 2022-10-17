@@ -39,6 +39,8 @@ const std :: string     client :: get_Host(){return this->_Host;}
 std :: string           client :: get_ID(){return this->_ID;}
 struct sockaddr_storage client :: get_remoteaddr(){return this->_remotaddr;}
 socklen_t               client :: get_addrlen(){return this->_addrlen;}
+struct Modes            client :: get_modes(){return this->_modes;}
+
 
 // setters
 

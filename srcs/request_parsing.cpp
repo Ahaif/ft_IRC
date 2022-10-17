@@ -14,7 +14,7 @@ request server :: split_msg(std :: string  msg)
 	}
     j = i;
     
-    while(msg[i] != 13 && msg[i] != 10)
+    while(msg[i] != '\r' && msg[i] != '\n')
     {
         if (msg[i] == ' ')
         {
@@ -81,23 +81,29 @@ std :: string server :: parse_request(std :: string msg, int clientFd)
 	else if (req.cmd == "OPER")
 		return (set_Oper(req,clientFd));
 	else if (req.cmd == "MODE")
-		return (" execute Pass CMD");
+		return (set_user_mode(req, clientFd));
+    else if (req.cmd == "INVITE")
+        return("Channel operation invite");
+    else if (req.cmd == "NAMES")
+        return("Channel operation names");
+    else if (req.cmd == "LISTS")
+        return("Channel operation lists");
 	else if (req.cmd == "PRIVMSG")
 		return (" execute Pass CMD");
 	else if (req.cmd == "NOTICE")
-		return (" execute Pass CMD");
-	else if (req.cmd == "HELP")
-		return (" execute Pass CMD");
+		return (" execute NOTICE CMD");
+	// else if (req.cmd == "HELP")
+	// 	return (" execute Pass CMD");
 	else if (req.cmd == "JOIN")
-		return (" execute Pass CMD");
+		return (join_chnl(req, clientFd));
 	else if (req.cmd == "TOPIC")
 	    return (" execute Pass CMD");
 	else if (req.cmd == "KICK")
 		return (" execute Pass CMD");
 	else if (req.cmd == "PART")
 		return (" execute Pass CMD");
-	else if (req.cmd == "QUIT")
-		return (" execute Pass CMD");
+	// else if (req.cmd == "QUIT")
+	// 	return ("quit command execute");
 	else if (req.cmd == "SENDFILE")
 		return (" execute Pass CMD");
 	else if (req.cmd == "GETFILE")

@@ -56,6 +56,9 @@ class server
         std :: string   registerName(request req, int fd);
         std :: string   set_userName(request req, int fd);
         std :: string   set_Oper(request req, int fd);
+        std :: string   set_user_mode(request req, int fd);
+        std :: string   join_chnl(request req, int fd);
+        
 
 };
 
