@@ -94,8 +94,8 @@ std :: string server :: parse_request(std :: string msg, int clientFd)
 		return (" execute NOTICE CMD");
 	// else if (req.cmd == "HELP")
 	// 	return (" execute Pass CMD");
-	else if (req.cmd == "JOIN")
-		return (join_chnl(req, clientFd));
+	// else if (req.cmd == "JOIN")
+	// 	return (join_chnl(req, clientFd));
 	else if (req.cmd == "TOPIC")
 	    return (" execute Pass CMD");
 	else if (req.cmd == "KICK")

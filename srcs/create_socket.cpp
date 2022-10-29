@@ -4,55 +4,31 @@
 
 void server :: create_socket(std :: string port)
 {
-    int yes = 1;
-    int status;
+    int enable = 1;
 
-    struct addrinfo hint, *srvInfo, *tmp;
-
-   	memset(&hint, 0, sizeof(hint));
-	hint.ai_family = AF_INET;
-	hint.ai_socktype = SOCK_STREAM;
-	hint.ai_protocol = getprotobyname("TCP")->p_proto;
-
-	status = getaddrinfo("0.0.0.0", port.c_str(), &hint, &srvInfo);
-	if (status != 0)
+	this->_socketFd = socket(AF_INET, SOCK_STREAM, 0);
+	if (this->_socketFd < 0)
 	{
-		std::cout << "getaddrinfo() error: " << gai_strerror(status) << std::endl;
+		std::cerr << "Create socket failed" << std::endl;
 		exit(-1);
 	}
-	for(tmp = srvInfo; tmp != NULL; tmp = tmp->ai_next)
+	if (setsockopt(this->_socketFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)))
 	{
-		this->_socketFd = socket(tmp->ai_family, tmp->ai_socktype, tmp->ai_protocol);
-		if (this->_socketFd < 0)
-			continue;
-
-		setsockopt(this->_socketFd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
-
-		if (bind(this->_socketFd, tmp->ai_addr, tmp->ai_addrlen) < 0)
-		{
-			close(this->_socketFd);
-			continue;
-		}
-		break;
-	}
-
-	freeaddrinfo(srvInfo);
-
-	if (tmp == NULL)
-	{
-		std::cout << "bind() error: " << strerror(errno) << std::endl;
+		std::cerr << "Setsockopt failed" << strerror(errno) << std::endl;
 		exit(-1);
 	}
-
-	if (listen(this->_socketFd, this->_max_online) == -1)
+	struct sockaddr_in address;
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = INADDR_ANY;
+	address.sin_port = htons(atoi(port.c_str()));
+	if (bind(this->_socketFd, (struct sockaddr *)&address, sizeof(address)) < 0)
 	{
-		std::cout << "listen() error: " << strerror(errno) << std::endl;
+		std::cerr << "bind failed" << strerror(errno) << std::endl;
 		exit(-1);
 	}
-
-
-
-
-
-
+	if (listen(this->_socketFd, _online_client) < 0)
+	{
+		std::cerr << "listen failed" << strerror(errno) << std::endl;
+		exit(-1);
+	}
 }
