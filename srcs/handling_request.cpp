@@ -1,32 +1,36 @@
 #include "../headers/server.hpp"
 
-
-void server ::  handle_request(int clientFd)
+void server ::handle_request(int position, client *client)
 {
-    //split request
-    char buf[5000];
-	
-	int nbytes = recv(this->_pfds[clientFd].fd, buf, sizeof(buf), 0);
+	// split request
+	char buf[5000];
+
+	int clientFd = _pfds[position].fd;
+
+	int nbytes = recv(clientFd, buf, sizeof(buf), 0);
 
 	if (nbytes <= 0)
 	{
 		if (nbytes == 0)
-			std::cout << "[" << "currentDateTime" << "]: socket " << this->_pfds[clientFd].fd << " hung up" << std::endl;
+			std::cout << "["
+					  << "currentDateTime"
+					  << "]: socket " << clientFd << " hung up" << std::endl;
 		else
 			std::cout << "recv() error: " << strerror(errno) << std::endl;
 
-		close(this->_pfds[clientFd].fd);
-		remove_from_poll(this->_pfds[clientFd].fd);
+		close(clientFd);
+		remove_from_poll(clientFd);
 	}
 	else
 	{
-		std::string message(buf, strlen(buf) - 1);
-		// if (message[message.size()- 1] ==  '\r')
-		// 	message.erase(message.size() - 1);
-		std::string ret = parse_request(message, this->_pfds[clientFd].fd);
-
-		
-		std :: cout << ret << std :: endl;
+		buf[nbytes] = '\0';
+		client->get_Buff().append(buf);
 	}
-	memset(&buf, 0, 5000);
-}	
+	if (buf[nbytes - 1] == '\n')
+	{
+		std::cout << client->get_Buff();
+		std::string ret = parse_request(client->get_Buff(), clientFd);
+		std ::cout << ret << std ::endl;
+		client->get_Buff().erase();
+	}
+}

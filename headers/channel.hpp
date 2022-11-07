@@ -2,26 +2,34 @@
 #define CHANNEL_HPP
 
 #include "server.hpp"
-#include "client.hpp"
 
+class client;
 
-class channel
+class Channel
 {
-    private:
-        std :: string               _topicId;
-        std :: map<int, client*>    _chnlMembers;
-        std :: map<int, client*>    _chnlOperators;
-        client*                     _creator;
+private:
+    char _prefix;
+    client *_creator;
+    int _onlineUsers;
+    std::string _name;
+    std::string _key;
+    std::string _topic;
+    std::map<int, client *> _members;
+    std::map<int, client *> _operators;
+    std::map<int, client *> _voice;
+    std::vector<std::string> _banned;
 
-    public:
-        channel();
-        channel(std ::string topic, int fd);
-        ~channel();
-        channel(const channel & x);
-        channel & operator = (const channel & rhs);
+private:
+    Channel();
 
-
+public:
+    Channel(std::string ChannelName, client *Creater);
+    Channel(std::string ChannelName, std::string ChannelKey, client *Creater);
+    Channel(const Channel &x);
+    Channel &operator=(const Channel &rhs);
+    ~Channel();
+    void addMember(client *newMember, int isOpertor, int isVoice);
+    std::string get_key();
 };
-
 
 #endif

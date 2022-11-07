@@ -23,9 +23,12 @@
 
 #include "request.hpp"
 #include "client.hpp"
+#include "replay.hpp"
+#include "channel.hpp"
 
 class request;
 class client;
+class Channel;
 
 class server
 {
@@ -39,7 +42,7 @@ class server
         std :: string   _password;
         std :: map<int, client*> _clientMap;
         std :: vector<std :: string> _clientName;
-
+        std::map<std::string , Channel *> _channels;
     public:
         server(std :: string name, int max_online, std :: string port, std :: string password);
         ~server();
@@ -49,7 +52,7 @@ class server
         void            new_connection();
         void            add_to_poll(int fd);
         void            remove_from_poll(int fd);
-        void            handle_request(int i);
+        void            handle_request(int i , client *client);
         std :: string   parse_request(std :: string req, int i);
         request         split_msg(std :: string req);
         std :: string   set_pssw(request req, int fd);
@@ -58,7 +61,8 @@ class server
         std :: string   set_Oper(request req, int fd);
         std :: string   set_user_mode(request req, int fd);
         std :: string   join_chnl(request req, int fd);
-        
+        void send_replay(client *client, std::string replayNb, std::string message);
+        std::vector<std::string> split(std::string str, std::string sep);
 
 };
 

@@ -19,9 +19,15 @@ handling_request.cpp\
 request_parsing.cpp\
 client.cpp\
 commands.cpp\
+channel.cpp\
+join_command.cpp\
 
 
-HEADERS_FILES = headers/server.hpp
+HEADERS_FILES = headers/server.hpp \
+headers/channel.hpp\
+headers/client.hpp\
+headers/replay.hpp\
+headers/request.hpp\
 
 MAIN = main.cpp
 # Define objects for all sources

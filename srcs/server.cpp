@@ -19,7 +19,8 @@ void server ::new_connection()
 	socklen_t addrlen;
 	int clientFD;
 
-	clientFD = accept(this->_socketFd, NULL, NULL);
+	addrlen = sizeof(remotaddr);
+	clientFD = accept(this->_socketFd, (struct sockaddr *) &remotaddr, &addrlen);
 	if (clientFD == -1)
 		std::cout << "accept() error: " << strerror(errno) << std::endl;
 	else
@@ -48,10 +49,10 @@ void server ::start_server()
 		{
 			if (this->_pfds[i].revents & POLLIN)
 			{
-				if (this->_pfds[i].fd == this->_socketFd) // 
+				if (this->_pfds[i].fd == this->_socketFd) //
 					new_connection();
 				else
-					handle_request(i);
+					handle_request(i, _clientMap.at(_pfds[i].fd));
 			}
 		}
 	}
@@ -61,4 +62,28 @@ server::~server()
 {
 	if (this->_pfds)
 		delete[] this->_pfds;
+}
+
+void server::send_replay(client *client, std::string replayNb, std::string replay)
+{
+	std::string message = client->get_Nickname();
+
+	if (message == "")
+		message = "*";
+	message = message + " " + replayNb + " " + replay;
+	write(client->get_Clientfd(), message.c_str(), message.size());
+}
+
+std::vector<std::string> server::split(std::string str, std::string sep)
+{
+	std::vector<std::string> args;
+	size_t start = 0;
+	size_t found = !std::string::npos;
+    while (found != std::string::npos)
+    {
+        found = str.find(sep, start);
+        args.push_back(str.substr(start, found - start));
+        start = found + sep.length();
+    }
+	return (args);
 }
