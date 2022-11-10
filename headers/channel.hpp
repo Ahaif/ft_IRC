@@ -30,6 +30,15 @@ public:
     ~Channel();
     void addMember(client *newMember, int isOpertor, int isVoice);
     std::string get_key();
+
+
+    std ::pair <client * , int> pick_user_role(int fd);
+
+
+    void	delete_operator( int i );
+	void	delete_voice( int i );
+	// void	removeBanned( std::string NickName );
+	void	delete_member( int i );
 };
 
 #endif

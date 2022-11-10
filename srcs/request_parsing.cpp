@@ -96,7 +96,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "KICK")
         return (" execute Pass CMD");
     else if (req.cmd == "PART")
-        return (" execute Pass CMD");
+        return (_partCmd(req, clientFd));
     // else if (req.cmd == "QUIT")
     // 	return ("quit command execute");
     else if (req.cmd == "SENDFILE")

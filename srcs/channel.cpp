@@ -66,6 +66,50 @@ void Channel::addMember(client *newMember, int isOpertor, int isVoice)
     _onlineUsers++;
 }
 
+std::pair<client *, int> Channel :: pick_user_role(int i)
+{
+    std::map<int, client *>::iterator it = this->_members.find(i);
+	if (it != this->_members.end())
+		return (std::pair<client *, int>(it->second, 0));
+	it = this->_operators.find(i);
+	if (it != this->_operators.end())
+		return (std::pair<client *, int>(it->second, 1));
+	it = this->_voice.find(i);
+	if (it != this->_voice.end())
+		return (std::pair<client *, int>(it->second, 2));
+	return (std::pair<client *, int>(NULL, -1));
+}
+
+
+
+
+void	Channel:: delete_operator( int i)
+{
+	this->_operators.erase(i);
+	this->_onlineUsers--;
+};
+
+void	Channel:: delete_voice( int i)
+{
+	this->_voice.erase(i);
+	this->_onlineUsers--;
+};
+
+// void	Channel::removeBanned( std::string NickName )
+// {
+// 	if (std::find(this->_banned.begin(), this->_banned.end(), NickName) != this->_banned.end())
+// 		return ;
+// 	this->_banned.erase(std::find(this->_banned.begin(), this->_banned.end(), NickName));
+// };
+
+void	Channel:: delete_member( int i)
+{
+	this->_members.erase(i);
+	this->_onlineUsers--;
+};
+
+
+
 std::string Channel::get_key()
 {
     return _key;

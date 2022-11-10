@@ -64,6 +64,10 @@ class server
         void send_replay(client *client, std::string replayNb, std::string message);
         std::vector<std::string> split(std::string str, std::string sep);
 
+
+
+        std::string                 _partCmd( request request, int i);
+        std::vector<std::string>    comma_sep(std :: string chnlist);
 };
 
 
