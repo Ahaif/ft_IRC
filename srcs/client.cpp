@@ -23,6 +23,15 @@ client &client ::operator=(const client &rhs)
 
 client ::~client(){};
 
+
+void	client::leave_channel( std::string ChannelName )
+{
+	this->_joinedChannels.erase(ChannelName);
+};
+
+
+
+
 // getters
 
 std::string &client ::get_Buff() {return this->_buff; }

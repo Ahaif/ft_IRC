@@ -81,7 +81,10 @@ std::pair<client *, int> Channel :: pick_user_role(int i)
 }
 
 
-
+std :: string Channel :: get_name()
+{
+    return(this->_name);
+}
 
 void	Channel:: delete_operator( int i)
 {

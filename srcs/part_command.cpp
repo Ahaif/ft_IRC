@@ -16,23 +16,17 @@ std::vector<std::string> server::comma_sep(std :: string chnlist)
 
 
 
-
-
-
-
 std::string	server ::_partCmd( request request, int i )
 {
 	if (!this->_clientMap[i]->get_registration())
 		return (" You have not registered");
-	if (request.args.size() != 2)
+	if (request.args.size() < 0 && request.args.size() > 2)
 		return (" ERR_NEEDMOREPARAMS ");
 	std::vector<std::string>	channelsParsed(comma_sep(request.args[0]));
 	std::vector<std::string>::iterator it = channelsParsed.begin();
 	while (it != channelsParsed.end())
 	{
-		int j = 0;
-		if (request.args.size() == 2)
-        {
+		// int j = 0;
             std::map<std::string, Channel *>::iterator itCh= this-> _channels.find(*it);
 	        if (itCh == this->_channels.end() /* No such channel */)
 		        return ("NOSUCHCHANNEL");
@@ -49,14 +43,24 @@ std::string	server ::_partCmd( request request, int i )
                         itCh->second->delete_operator(i);
                     else
                         itCh->second->delete_voice(i);
-                    //apply leave channel 
+
+					//apply leave channel
+					user.first->leave_channel(itCh->second->get_name());
+
+					std::string reply = "PART " + *it;
+					if(request.args.size() != 2)
+					{
+						reply.append("\n"); // notify client with no reason
+					}
+					else
+					{
+						reply.append(" " + request.args[2] + "\n"); // notifu client with reason 
+					}
+						
                 }
-                
-
             }
-
+			it++;
         }
-
 	return ("");
 };
 

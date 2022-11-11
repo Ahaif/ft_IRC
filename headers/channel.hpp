@@ -34,7 +34,7 @@ public:
 
     std ::pair <client * , int> pick_user_role(int fd);
 
-
+    std:: string    get_name();
     void	delete_operator( int i );
 	void	delete_voice( int i );
 	// void	removeBanned( std::string NickName );
