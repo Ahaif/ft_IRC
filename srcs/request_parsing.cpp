@@ -87,18 +87,14 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
         return (" execute Pass CMD");
     else if (req.cmd == "NOTICE")
         return (" execute NOTICE CMD");
-    // else if (req.cmd == "HELP")
-    // 	return (" execute Pass CMD");
     else if (req.cmd == "JOIN")
         return (join_chnl(req, clientFd));
     else if (req.cmd == "TOPIC")
-        return (" execute Pass CMD");
+        return ("execute Topic cmd");
     else if (req.cmd == "KICK")
-        return (" execute Pass CMD");
+        return (kick_user(req, clientFd));
     else if (req.cmd == "PART")
         return (_partCmd(req, clientFd));
-    // else if (req.cmd == "QUIT")
-    // 	return ("quit command execute");
     else if (req.cmd == "SENDFILE")
         return (" execute Pass CMD");
     else if (req.cmd == "GETFILE")

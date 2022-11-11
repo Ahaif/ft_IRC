@@ -22,6 +22,7 @@ commands.cpp\
 channel.cpp\
 join_command.cpp\
 part_command.cpp\
+kick_command.cpp\
 
 
 HEADERS_FILES = headers/server.hpp \

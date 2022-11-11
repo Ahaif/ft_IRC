@@ -2,6 +2,7 @@
 #define CLIENT_HPP
 
 #include "server.hpp"
+// #include "channel.hpp"
 
 struct Modes
 {
@@ -14,7 +15,7 @@ struct Modes
 	bool	server;
 };
 
-
+class Channel;
 
 class client
 {
@@ -35,7 +36,7 @@ class client
 
         //add Modes data as struct
 		//add map fpr joined channel
-        std :: map<std :: string, Channel*>         _joinedChannels;
+        std :: map<std :: string, Channel *>         _joinedChannels;
     public:
         client();
         client(int fd);

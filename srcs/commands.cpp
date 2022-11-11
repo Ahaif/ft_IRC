@@ -61,6 +61,19 @@ std ::string server ::registerName(request req, int fd)
 	return ("Nick Name setup  succesfly ");
 };
 
+
+int		server::_find_FdBy_NickName(std::string NickName)
+{
+	std::map<int, client *>::iterator it = this->_clientMap.begin();
+	while(it != this->_clientMap.end())
+	{
+		if (it->second->get_Nickname() == NickName)
+			return (it->second->get_Clientfd());
+		it++;
+	}
+	return (-1);
+}
+
 std ::string server ::set_userName(request req, int fd)
 {
 	if (!this->_clientMap[fd]->get_connection())

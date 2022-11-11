@@ -14,10 +14,11 @@ private:
     std::string _name;
     std::string _key;
     std::string _topic;
-    std::map<int, client *> _members;
-    std::map<int, client *> _operators;
-    std::map<int, client *> _voice;
-    std::vector<std::string> _banned;
+    std::map<int, client *>     _members;
+    std::map<int, client *>     _operators;
+    std::map<int, client *>     _voice;
+    std::vector<std::string>    _banned;
+   
 
 private:
     Channel();
