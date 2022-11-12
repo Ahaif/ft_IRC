@@ -138,3 +138,14 @@ void Channel::removeMember(client *Member)
     _onlineUsers--;
     std::cout << "Channel: " << _name << " has " << _onlineUsers << " users" << std::endl;
 }
+
+
+std::string Channel::get_topic()
+{
+    return _topic;
+}
+
+void Channel::set_topic(std::string newTopic)
+{
+    _topic = newTopic;
+}

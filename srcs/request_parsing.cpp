@@ -92,7 +92,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "JOIN")
         return (join_chnl(req, clientFd));
     else if (req.cmd == "TOPIC")
-        return ("execute Topic cmd");
+        return (this->topic_command(req, clientFd));
     else if (req.cmd == "KICK")
         return (kick_user(req, clientFd));
     else if (req.cmd == "PART")

@@ -42,6 +42,8 @@ public:
 	void removeMember(client *Member);
     bool isMember(client *newMember);
     int get_onlineUsers();
+    std::string get_topic();
+    void set_topic(std::string newTopic);
 };
 
 #endif

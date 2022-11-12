@@ -13,6 +13,7 @@
 #define ERR_NOSUCHCHANNEL " No such channel\n"
 #define ERR_BADCHANNELKEY names[i] + " :Cannot join channel (+k)\n"
 #define ERR_NOTONCHANNEL  " :You're not on that channel\n"
+#define RPL_NOTOPIC  " :No topic is set\n"
 
 
 #endif
