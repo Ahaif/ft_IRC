@@ -48,9 +48,11 @@ request server ::split_msg(std ::string msg)
     }
     if (msg[j] && i)
         req.args.push_back(msg.substr(j, i - j));
-    req.cmd = req.args[0];
-    req.args.erase(req.args.begin());
-
+    if (req.args.size() > 0)
+    {
+        req.cmd = req.args[0];
+        req.args.erase(req.args.begin());
+    }
     return (req);
 }
 
