@@ -71,8 +71,8 @@ class server
         std::string topic_command(request req, int fd);
         std :: string               kick_user(request request, int i);
         std::vector<std::string>    comma_sep(std :: string chnlist);
-        std::string                 kick_from_chnl(std::string ChannelName, std::string message, std::vector<std::string> users, int i);
-        int	                        _find_FdBy_NickName(std::string NickName);
+        std::string                 _kick_fromChnl(std::string ChannelName, std::string message, std::vector<std::string> users, int fd);
+        int                         _find_FdBy_NickName(std::string NickName);
 };
 
 

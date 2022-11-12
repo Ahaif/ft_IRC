@@ -13,8 +13,7 @@ request server ::split_msg(std ::string msg)
         return (req);
     }
     j = i;
-
-    while (msg[i] != '\r' && msg[i] != '\n')
+    while (msg[i] != '\0' && msg[i] != '\r' && msg[i] != '\n')
     {
         if (msg[i] == ' ')
         {
@@ -34,7 +33,10 @@ request server ::split_msg(std ::string msg)
                 req.invalidMsg = true;
                 return (req);
             }
-            req.args.push_back(msg.substr(i + 1, msg.length()));
+            std :: cout << "msg size is: " << msg.length() << std :: endl;
+            int res = msg.length() -1;
+            req.args.push_back(msg.substr(i + 1,res));
+    
             req.cmd = req.args[0];
             req.args.erase(req.args.begin());
             if (flag > 1)
@@ -44,6 +46,8 @@ request server ::split_msg(std ::string msg)
             }
             return (req);
         }
+        if (msg[i] == '\0')
+            break;
         i++;
     }
     if (msg[j] && i)
