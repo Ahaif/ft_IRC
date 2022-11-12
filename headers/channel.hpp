@@ -36,10 +36,12 @@ public:
     std ::pair <client * , int> pick_user_role(int fd);
 
     std:: string    get_name();
-    void	delete_operator( int i );
-	void	delete_voice( int i );
+    // void	delete_operator( int i );
+	// void	delete_voice( int i );
 	// void	removeBanned( std::string NickName );
-	void	delete_member( int i );
+	void removeMember(client *Member);
+    bool isMember(client *newMember);
+    int get_onlineUsers();
 };
 
 #endif

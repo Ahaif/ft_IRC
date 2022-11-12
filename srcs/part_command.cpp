@@ -15,53 +15,42 @@ std::vector<std::string> server::comma_sep(std :: string chnlist)
 }
 
 
-
-std::string	server ::_partCmd( request request, int i )
+std::string server::part_command(request req, int fd)
 {
-	if (!this->_clientMap[i]->get_registration())
-		return (" You have not registered");
-	if (request.args.size() < 0 && request.args.size() > 2)
-		return (" ERR_NEEDMOREPARAMS ");
-	std::vector<std::string>	channelsParsed(comma_sep(request.args[0]));
-	std::vector<std::string>::iterator it = channelsParsed.begin();
-	while (it != channelsParsed.end())
-	{
-		// int j = 0;
-            std::map<std::string, Channel *>::iterator itCh= this-> _channels.find(*it);
-	        if (itCh == this->_channels.end() /* No such channel */)
-		        return ("NOSUCHCHANNEL");
-            else
+    std::vector<std::string> names;
+    std::vector<std::string> reasons;
+    if (!this->_clientMap[fd]->get_registration())
+        send_replay(_clientMap[fd], "451", ERR_NOTREGISTERED);
+    else if (req.args.size() == 0)
+        send_replay(_clientMap[fd], "461", ERR_NEEDMOREPARAMS);
+    else
+    {
+        names = split(req.args[0], ",");
+        if (req.args.size() > 1)
+            reasons = split(req.args[1], ",");
+        if (names.size() > reasons.size())
+            reasons.resize(names.size(), "");
+        for (size_t i = 0; i < names.size(); i++)
+        {
+            if (_channels.find(names[i]) != _channels.end())
             {
-                std::pair<client *, int> user(itCh->second->pick_user_role(i));
-                if (user.second == -1 /* Not in channel */)
-                    return ("NOTINCHANNEL");
-                else
+                if (_channels[names[i]]->isMember(_clientMap[fd]))
                 {
-                    if (user.second == 0)
-                        itCh->second->delete_member(i);
-                    else if(user.second == 1)
-                        itCh->second->delete_operator(i);
-                    else
-                        itCh->second->delete_voice(i);
-
-					//apply leave channel
-					user.first->leave_channel(itCh->second->get_name());
-
-					std::string reply = "PART " + *it;
-					if(request.args.size() != 2)
-					{
-						reply.append("\n"); // notify client with no reason
-					}
-					else
-					{
-						reply.append(" " + request.args[2] + "\n"); // notifu client with reason 
-					}
-						
+                    _channels[names[i]]->removeMember(_clientMap[fd]);
+                    std::cout << _channels[names[i]]->get_onlineUsers() << std::endl;
+                    if (_channels[names[i]]->get_onlineUsers() == 0)
+                    {
+                        _channels.erase(names[i]);
+                        send_replay(_clientMap[fd], "Channel: " + names[i], " is removed\n");
+                    }
+                    send_replay(_clientMap[fd], " leave channel ", names[i] + "\n");
                 }
+                else
+                    send_replay(_clientMap[fd], "442", names[i] + ERR_NOTONCHANNEL);
             }
-			it++;
+            else
+                send_replay(_clientMap[fd], "403", names[i] + ERR_NOSUCHCHANNEL);
         }
-	return ("");
-};
-
-
+    }
+    return "";
+}

@@ -86,17 +86,17 @@ std :: string Channel :: get_name()
     return(this->_name);
 }
 
-void	Channel:: delete_operator( int i)
-{
-	this->_operators.erase(i);
-	this->_onlineUsers--;
-};
+// void	Channel:: delete_operator( int i)
+// {
+// 	this->_operators.erase(i);
+// 	this->_onlineUsers--;
+// };
 
-void	Channel:: delete_voice( int i)
-{
-	this->_voice.erase(i);
-	this->_onlineUsers--;
-};
+// void	Channel:: delete_voice( int i)
+// {
+// 	this->_voice.erase(i);
+// 	this->_onlineUsers--;
+// };
 
 // void	Channel::removeBanned( std::string NickName )
 // {
@@ -105,15 +105,36 @@ void	Channel:: delete_voice( int i)
 // 	this->_banned.erase(std::find(this->_banned.begin(), this->_banned.end(), NickName));
 // };
 
-void	Channel:: delete_member( int i)
-{
-	this->_members.erase(i);
-	this->_onlineUsers--;
-};
+// void	Channel:: delete_member( int i)
+// {
+// 	this->_members.erase(i);
+// 	this->_onlineUsers--;
+// };
 
 
 
 std::string Channel::get_key()
 {
     return _key;
+}
+
+bool Channel::isMember(client *newMember)
+{
+    if (_members.find(newMember->get_Clientfd()) != _members.end())
+        return true;
+    return false;
+}
+
+int Channel::get_onlineUsers()
+{
+    return _onlineUsers;
+}
+
+void Channel::removeMember(client *Member)
+{
+    _members.erase(Member->get_Clientfd());
+    _operators.erase(Member->get_Clientfd());
+    _voice.erase(Member->get_Clientfd());
+    _onlineUsers--;
+    std::cout << "Channel: " << _name << " has " << _onlineUsers << " users" << std::endl;
 }

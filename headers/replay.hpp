@@ -10,8 +10,9 @@
 #define ERR_ERRONEUSNICKNAME req.args[0] + " :Erroneus nickname\n"
 #define RPL_WELCOME " :Welcome to the " + _name + " Network, " + CLIENT_INFORMATION
 #define ERR_NOTREGISTERED ":You have not registered\n"
-#define ERR_NOSUCHCHANNEL names[i] + " No such channel\n"
+#define ERR_NOSUCHCHANNEL " No such channel\n"
 #define ERR_BADCHANNELKEY names[i] + " :Cannot join channel (+k)\n"
+#define ERR_NOTONCHANNEL  " :You're not on that channel\n"
 
 
 #endif
