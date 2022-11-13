@@ -73,6 +73,8 @@ class server
         std::vector<std::string>    comma_sep(std :: string chnlist);
         std::string                 _kick_fromChnl(std::string ChannelName, std::string message, std::vector<std::string> users, int fd);
         int                         _find_FdBy_NickName(std::string NickName);
+        std::string					_printMessage(std::string num, std::string nickname, std::string message);
+
 };
 
 

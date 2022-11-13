@@ -87,3 +87,10 @@ std::vector<std::string> server::split(std::string str, std::string sep)
     }
 	return (args);
 }
+
+std::string	server ::_printMessage(std::string num, std::string nickname, std::string message)
+{
+	if (nickname.empty())
+		nickname = "*";
+	return (":" + this->_name + " " + num + " " + nickname + " " + message + "\n");
+}

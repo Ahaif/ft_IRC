@@ -4,13 +4,16 @@ std::string		server:: _kick_fromChnl(std::string ChannelName, std::string messag
 {
 	
 	std::map<std::string, Channel *>::iterator it = this->_channels.find(ChannelName);
+	int ret = 0;
 	if (it != this->_channels.end())
 	{
 		std::pair<client *, int> user = it->second->pick_user_role(fd);
 		if (user.second == 1)
 		{
+			
+			std :: cout << "passed---- 2" << std :: endl;
 			std::vector<std::string>::iterator userit = users.begin();
-			int ret = 0;
+			
 			while (userit != users.end())
 			{
 				std :: cout << "passed---- 1" << std :: endl;
@@ -23,7 +26,10 @@ std::string		server:: _kick_fromChnl(std::string ChannelName, std::string messag
 				else
 					reply.append(" " + message + "\n");
 				_channels[ChannelName]->removeMember(_clientMap[ret]);
-				std :: cout << "user removed from"<< _channels[ChannelName]->get_name() << std :: endl;
+				// if(_channels[ChannelName]->memberSize() == 0)
+				// 	_channels.erase(ChannelName);
+				//NOTIFY USERS ABOUT REPLY
+				std :: cout << "user: " << _clientMap[ret]->get_Nickname() << "removed from "<< _channels[ChannelName]->get_name() << std :: endl;
 				userit++;
 			}
 		}
@@ -31,9 +37,9 @@ std::string		server:: _kick_fromChnl(std::string ChannelName, std::string messag
 			return ( " :You're not on that channel");
 		else
 			return (" :You're not channel operator");
-		return (" passed wihout entring ");
+		return ("");
 	}
-	return (" :No such channel");
+	return (_printMessage("403", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :No such channel")));
 }
 
 std:: string server :: kick_user(request request, int fdClient)
@@ -52,15 +58,13 @@ std:: string server :: kick_user(request request, int fdClient)
 	{
 		std::string ret;
 		if (request.args.size() == 3)
-				_kick_fromChnl(*it, request.args[2], users, fdClient);
+			ret = _kick_fromChnl(*it, request.args[2], users, fdClient);
 		else
-            std ::  cout << "req args size is: " << request.args.size() << std :: endl;
-			
-		if (!ret.empty())
+			ret = _kick_fromChnl(*it, "", users, fdClient);
+	
+		if(!ret.empty())
 			return(ret);
 		it++;
 	}
-	return ("");
+	return ("KICKED SUCCESS");
 }
-
-// ret = _kickedFromChannel(*it, "", users, i);

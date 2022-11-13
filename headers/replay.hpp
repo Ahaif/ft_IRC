@@ -2,15 +2,15 @@
 #define REPLAY_HPP
 
 #define CLIENT_INFORMATION _clientMap[fd]->get_Nickname() + "!" + _clientMap[fd]->get_Username() + "@" + _clientMap[fd]->get_Host() + "\n"
-#define ERR_NEEDMOREPARAMS req.cmd + " : Not enough parameters\n"
-#define ERR_ALREADYREGISTERED req.cmd + " :You may not reregister\n"
-#define ERR_PASSWDMISMATCH req.cmd + " :Password incorrect\n"
-#define ERR_NONICKNAMEGIVEN req.cmd + " :No nickname given\n"
-#define ERR_NICKNAMEINUSE req.args[0] + " :Nickname is already in use\n"
-#define ERR_ERRONEUSNICKNAME req.args[0] + " :Erroneus nickname\n"
+#define ERR_NEEDMOREPARAMS " : Not enough parameters"
+#define ERR_ALREADYREGISTERED  " :You may not reregister"
+#define ERR_PASSWDMISMATCH " :Password incorrect"
+#define ERR_NONICKNAMEGIVEN " :No nickname given"
+#define ERR_NICKNAMEINUSE " :Nickname is already in use"
+#define ERR_ERRONEUSNICKNAME  " :Erroneus nickname"
 #define RPL_WELCOME " :Welcome to the " + _name + " Network, " + CLIENT_INFORMATION
-#define ERR_NOTREGISTERED ":You have not registered\n"
-#define ERR_NOSUCHCHANNEL " No such channel\n"
+#define ERR_NOTREGISTERED ":You have not registered"
+#define ERR_NOSUCHCHANNEL " No such channel"
 #define ERR_BADCHANNELKEY names[i] + " :Cannot join channel (+k)\n"
 #define ERR_NOTONCHANNEL  " :You're not on that channel\n"
 #define RPL_NOTOPIC  " :No topic is set\n"

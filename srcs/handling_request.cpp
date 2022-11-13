@@ -30,6 +30,8 @@ void server ::handle_request(int position, client *client)
 	{
 		std::cout << client->get_Buff();
 		std::string ret = parse_request(client->get_Buff(), clientFd);
+		if (send(clientFd, ret.c_str(), ret.length(), 0) == -1)
+			std::cout << "send() error: " << strerror(errno) << std::endl;
 		std ::cout << ret << std ::endl;
 		client->get_Buff().erase();
 	}

@@ -1,6 +1,22 @@
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
+
+
+
+#define	USERALREADYJOINED 0
+#define USERISJOINED 1
+#define NOTINCHANNEL 2
+#define BANNEDFROMCHAN 3
+#define TOOMANYCHANNELS 4
+#define BADCHANNELKEY 5
+#define CHANNELISFULL 6
+#define NOSUCHCHANNEL 7
+#define USERISBANNED 8
+#define BADCHANMASK 9
+#define USERNOTINCHANNEL -1
+#define USERNOTFOUND -1
+
 #include "server.hpp"
 
 class client;
@@ -39,11 +55,14 @@ public:
     // void	delete_operator( int i );
 	// void	delete_voice( int i );
 	// void	removeBanned( std::string NickName );
-	void removeMember(client *Member);
-    bool isMember(client *newMember);
-    int get_onlineUsers();
-    std::string get_topic();
-    void set_topic(std::string newTopic);
+	void            removeMember(client *Member);
+    bool            isMember(client *newMember);
+    int             get_onlineUsers();
+    std::string     get_topic();
+    void            set_topic(std::string newTopic);
+    int             add_Operator( client *member );
+    void            print_Operatorchnl();
+    int            memberSize();
 };
 
 #endif

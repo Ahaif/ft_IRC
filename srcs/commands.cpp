@@ -4,25 +4,20 @@ std ::string server ::set_pssw(request req, int fd)
 {
 	if (req.args.size() < 1)
 	{
-		send_replay(_clientMap[fd], "461", ERR_NEEDMOREPARAMS);
-		return ("");
+		return (_printMessage("461", "PASS",  ERR_NEEDMOREPARAMS));
 	}
 	if (this->_clientMap[fd]->get_registration())
 	{
-		send_replay(_clientMap[fd], "462", ERR_ALREADYREGISTERED);
-		return ("");
+		return (_printMessage("462", _clientMap[fd]->get_Nickname(),  ERR_ALREADYREGISTERED));
 	}
 	if (strcmp(req.args[0].c_str(), this->_password.c_str()) == 0)
 	{
 		this->_clientMap[fd]->set_connection();
-		return ("PASSWORD set succesfuly");
 	}
 	else
 	{
-		send_replay(_clientMap[fd], "464", ERR_PASSWDMISMATCH);
-		return ("");
+		return (_printMessage("464", _clientMap[fd]->get_Nickname(),  ERR_PASSWDMISMATCH));
 	}
-
 	return ("");
 }
 
@@ -32,22 +27,20 @@ std ::string server ::registerName(request req, int fd)
 		return ("You should connect first with PASS cmd\n");
 	else if (req.args.size() < 1)
 	{
-		send_replay(_clientMap[fd], "431", ERR_NONICKNAMEGIVEN);
-		return "";
+		return (":No nickname given\n");
 	}
 	for (long unsigned int j = 0; j < req.args[0].size(); j++)
 	{
 		if (!isalnum(req.args[0][j]) && req.args[0][j] != '-' && req.args[0][j] != '\r')
 		{
-			send_replay(_clientMap[fd], "432", ERR_ERRONEUSNICKNAME);
-			return ("");
+			return (_printMessage("432", req.args[0], ERR_ERRONEUSNICKNAME));
 		}
 	}
 	if (std::find(this->_clientName.begin(), this->_clientName.end(), req.args[0]) != this->_clientName.end())
 	{
-		send_replay(_clientMap[fd], "433", ERR_NICKNAMEINUSE);
-		return ("");
+		return (_printMessage("433", _clientMap[fd]->get_Nickname(), ERR_NICKNAMEINUSE));
 	}
+	// ADD option when a user want to change his name
 	this->_clientMap[fd]->set_Nickname(req.args[0]);
 	this->_clientName.push_back(this->_clientMap[fd]->get_Nickname());
 	if (this->_clientMap[fd]->get_Username() != "")
@@ -58,7 +51,7 @@ std ::string server ::registerName(request req, int fd)
 		return ("-------Welcome to the Internet Relay Network---------");
 	}
 
-	return ("Nick Name setup  succesfly ");
+	return ("Nick Name setup  succesfly\n");
 };
 
 

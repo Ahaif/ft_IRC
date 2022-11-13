@@ -66,14 +66,29 @@ void Channel::addMember(client *newMember, int isOpertor, int isVoice)
     _onlineUsers++;
 }
 
+
+int	Channel::add_Operator( client *member )
+{
+	if (std::find(this->_banned.begin(), this->_banned.end(), member->get_Nickname()) != this->_banned.end())
+		return (BANNEDFROMCHAN);
+	if (this->_operators.find(member->get_Clientfd()) == this->_operators.end())
+	{
+		this->_operators.insert(std::pair<int, client *>(member->get_Clientfd(), member));
+		this->_onlineUsers++;
+		return (USERISJOINED);
+	};
+	return (-1);
+};
+
+
 std::pair<client *, int> Channel :: pick_user_role(int i)
 {
-    std::map<int, client *>::iterator it = this->_members.find(i);
-	if (it != this->_members.end())
-		return (std::pair<client *, int>(it->second, 0));
-	it = this->_operators.find(i);
+    std::map<int, client *>::iterator it = this->_operators.find(i);
 	if (it != this->_operators.end())
 		return (std::pair<client *, int>(it->second, 1));
+    it = this->_members.find(i);
+	if (it != this->_members.end())
+		return (std::pair<client *, int>(it->second, 0));
 	it = this->_voice.find(i);
 	if (it != this->_voice.end())
 		return (std::pair<client *, int>(it->second, 2));
@@ -84,6 +99,25 @@ std::pair<client *, int> Channel :: pick_user_role(int i)
 std :: string Channel :: get_name()
 {
     return(this->_name);
+}
+
+
+void :: Channel :: print_Operatorchnl()
+{
+    std::map<int, client *> :: iterator it; 
+    for(it = this->_operators.begin(); it != this->_operators.end(); it++)
+    {
+        std :: cout << "Operator is : " << it->second->get_Nickname() << std :: endl;
+
+    }
+}
+
+int :: Channel :: memberSize()
+{
+    if(this->_members.size() == 0)
+        return (0);
+    else
+        return(this->_members.size());
 }
 
 // void	Channel:: delete_operator( int i)
