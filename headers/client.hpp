@@ -60,6 +60,8 @@ class client
         socklen_t               get_addrlen();
         struct Modes            get_modes();
 
+        std::string		getUserPerfix() const;
+
     //setters
     public:
         void    set_Clientfd(int fd);

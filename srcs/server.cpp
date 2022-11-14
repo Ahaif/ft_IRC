@@ -94,3 +94,14 @@ std::string	server ::_printMessage(std::string num, std::string nickname, std::s
 		nickname = "*";
 	return (":" + this->_name + " " + num + " " + nickname + " " + message + "\n");
 }
+
+
+int :: server :: list_Cnickname()
+{
+	int i =0;
+	for(; i < (int)this->_clientMap.size(); i++)
+	{
+		std :: cout << _clientMap[i]->get_Nickname() << std :: endl;
+	}
+	return(i);
+}

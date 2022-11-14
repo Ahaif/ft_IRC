@@ -183,3 +183,11 @@ void Channel::set_topic(std::string newTopic)
 {
     _topic = newTopic;
 }
+
+std::map<int, client *>	Channel:: collect_users() const
+{
+	std::map<int, client *>	allUsers(this->_members.begin(), this->_members.end());
+	allUsers.insert(this->_operators.begin(), this->_operators.end());
+	allUsers.insert(this->_voice.begin(), this->_voice.end());
+	return (allUsers);
+};

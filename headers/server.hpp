@@ -74,6 +74,14 @@ class server
         std::string                 _kick_fromChnl(std::string ChannelName, std::string message, std::vector<std::string> users, int fd);
         int                         _find_FdBy_NickName(std::string NickName);
         std::string					_printMessage(std::string num, std::string nickname, std::string message);
+        std :: string               prvmsg(request req, int fd);
+        std :: string               prvmsg_user(request req, int fd);
+        std :: string               prvmsg_chnl(request req, int fd);
+        std :: string               send_to_allUsers(Channel *channelName, int Senderfd, std :: string msg);
+         int                         sendMsg(int fd, std :: string msg);
+
+        int                        list_Cnickname();
+
 
 };
 

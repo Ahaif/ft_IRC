@@ -29,26 +29,32 @@ std ::string server ::registerName(request req, int fd)
 	{
 		return (":No nickname given\n");
 	}
-	for (long unsigned int j = 0; j < req.args[0].size(); j++)
+	for(size_t k = 0; k < req.args.size(); k++)
 	{
-		if (!isalnum(req.args[0][j]) && req.args[0][j] != '-' && req.args[0][j] != '\r')
+		for (long unsigned int j = 0; j < req.args[k].size(); j++)
 		{
-			return (_printMessage("432", req.args[0], ERR_ERRONEUSNICKNAME));
+			if (!isalnum(req.args[k][j]) && req.args[k][j] != '-' && req.args[k][j] != '\r')
+				return (_printMessage("432", req.args[k], ERR_ERRONEUSNICKNAME));
 		}
 	}
+
 	if (std::find(this->_clientName.begin(), this->_clientName.end(), req.args[0]) != this->_clientName.end())
 	{
-		return (_printMessage("433", _clientMap[fd]->get_Nickname(), ERR_NICKNAMEINUSE));
+			if (req.args.size() == 2)
+				req.args.erase(req.args.begin());
+			else
+				return (_printMessage("433", _clientMap[fd]->get_Nickname(), ERR_NICKNAMEINUSE));
 	}
-	// ADD option when a user want to change his name
+
+
+	// ADD option when a user want to change his name -> done
 	this->_clientMap[fd]->set_Nickname(req.args[0]);
 	this->_clientName.push_back(this->_clientMap[fd]->get_Nickname());
 	if (this->_clientMap[fd]->get_Username() != "")
 	{
 		// this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
 		this->_clientMap[fd]->set_connection();
-		send_replay(_clientMap[fd], "001", RPL_WELCOME);
-		return ("-------Welcome to the Internet Relay Network---------");
+		return (_printMessage("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
 	}
 
 	return ("Nick Name setup  succesfly\n");
@@ -73,13 +79,11 @@ std ::string server ::set_userName(request req, int fd)
 		return ("You need to authenticate first");
 	if (this->_clientMap[fd]->get_registration())
 	{
-		send_replay(_clientMap[fd], "462", ERR_ALREADYREGISTERED);
-		return ("");
+		return (_printMessage("462", _clientMap[fd]->get_Nickname(), ERR_ALREADYREGISTERED));
 	}
 	if (req.args.size() < 4)
 	{
-		send_replay(_clientMap[fd], "461", ERR_NEEDMOREPARAMS);
-		return ("");
+		return (_printMessage("461", _clientMap[fd]->get_Nickname(), ERR_NEEDMOREPARAMS));
 	}
 	this->_clientMap[fd]->set_Username(req.args[0]);
 	this->_clientMap[fd]->set_FullName(req.args[3]);
@@ -88,8 +92,7 @@ std ::string server ::set_userName(request req, int fd)
 	{
 		// this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
 		this->_clientMap[fd]->set_connection();
-		send_replay(_clientMap[fd], "001", RPL_WELCOME);
-		return ("--------Welcome to the Internet Relay Network-------");
+		return (_printMessage("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
 	}
 	return ("");
 }
@@ -99,13 +102,13 @@ std ::string server ::set_Oper(request req, int fd)
 	if (!this->_clientMap[fd]->get_registration())
 		return ("You have not registered");
 	if (req.args.size() < 2)
-		return ("Not enough parameters");
+		return (_printMessage("461", _clientMap[fd]->get_Nickname(), ERR_NEEDMOREPARAMS));
 	if (req.args[0] != "ADMIN")
-		return ("Usernameincorrect");
+		return (_printMessage("464", _clientMap[fd]->get_Nickname(),  ERR_PASSWDMISMATCH));
 	if (req.args[1] != "abdel")
-		return ("Password incorrect");
+		return (_printMessage("464", _clientMap[fd]->get_Nickname(),  ERR_PASSWDMISMATCH));
 	_clientMap[fd]->set_operator();
-	return ("You are now an IRC operator");
+	return (_printMessage("381", this->_clientMap[fd]->get_Nickname(), ":You are now an IRC operator"));
 }
 
 static bool param_contain(std ::string &param, char op)
@@ -153,11 +156,11 @@ std ::string client ::set_mode(std::string param)
 std ::string server ::set_user_mode(request req, int fd)
 {
 	if (!this->_clientMap[fd]->get_registration())
-		return ("You are not registred.");
+		return (_printMessage("451", "", ":You have not registered"));
 	if (req.args.size() != 2 || req.args[1].length() != 2)
-		return ("param size error for Mode cmd ");
+		return (_printMessage("461", _clientMap[fd]->get_Nickname(), ERR_NEEDMOREPARAMS));
 	if (req.args[0] != _clientMap[fd]->get_Nickname())
-		return ("MODE cmd should have have the same nickname...");
+		return (_printMessage("502", this->_clientMap[fd]->get_Nickname(), ":Cannot change mode for other users"));
 	else
 	{
 		if (param_contain(req.args[1], 'o') && param_contain(req.args[1], '+'))
@@ -165,8 +168,8 @@ std ::string server ::set_user_mode(request req, int fd)
 		std ::cout << "MODE is: " << req.args[1] << std ::endl;
 		if (valid_mode(req.args[1]))
 		{
-
-			return (this->_clientMap[fd]->set_mode(req.args[1]));
+			this->_clientMap[fd]->set_mode(req.args[1]);
+			return(_printMessage("221", this->_clientMap[fd]->get_Nickname(), req.args[1]));
 		}
 	}
 	return ("");

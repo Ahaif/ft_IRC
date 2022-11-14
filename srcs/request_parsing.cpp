@@ -90,7 +90,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "LISTS")
         return ("Channel operation lists");
     else if (req.cmd == "PRIVMSG")
-        return (" execute Pass CMD");
+        return (prvmsg(req, clientFd));
     else if (req.cmd == "NOTICE")
         return (" execute NOTICE CMD");
     else if (req.cmd == "JOIN")
@@ -107,6 +107,11 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
         return (" execute Pass CMD");
     else if (req.cmd == "BOT")
         return (" execute  CMD");
+    else if (req.cmd == "LS")
+    {
+       list_Cnickname();
+       return("nicknames listed");
+    }
     else
         return ("Invalid cmd\n");
 }

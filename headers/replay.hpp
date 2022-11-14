@@ -1,7 +1,7 @@
 #ifndef REPLAY_HPP
 #define REPLAY_HPP
 
-#define CLIENT_INFORMATION _clientMap[fd]->get_Nickname() + "!" + _clientMap[fd]->get_Username() + "@" + _clientMap[fd]->get_Host() + "\n"
+#define CLIENT_INFORMATION _clientMap[fd]->get_Nickname() + "!" + _clientMap[fd]->get_Username() + "@" + _clientMap[fd]->get_Host()
 #define ERR_NEEDMOREPARAMS " : Not enough parameters"
 #define ERR_ALREADYREGISTERED  " :You may not reregister"
 #define ERR_PASSWDMISMATCH " :Password incorrect"

@@ -24,6 +24,7 @@ join_command.cpp\
 part_command.cpp\
 kick_command.cpp\
 topic.cpp\
+privmsg_command.cpp\
 
 
 HEADERS_FILES = headers/server.hpp \

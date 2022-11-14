@@ -47,6 +47,9 @@ struct sockaddr_storage client ::get_remoteaddr() { return this->_remotaddr; }
 socklen_t client ::get_addrlen() { return this->_addrlen; }
 struct Modes client ::get_modes() { return this->_modes; }
 
+
+std::string		client::getUserPerfix() const { return (":" + this->_NickName + "!" + this->_UserName + "@" + this->_Host + " "); };
+
 // setters
 
 void client ::set_Clientfd(int fd) { this->_clientfd = fd; }

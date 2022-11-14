@@ -51,7 +51,8 @@ public:
 
     std ::pair <client * , int> pick_user_role(int fd);
 
-    std:: string    get_name();
+    std:: string                get_name();
+    std::map<int, client *>	    collect_users() const;
     // void	delete_operator( int i );
 	// void	delete_voice( int i );
 	// void	removeBanned( std::string NickName );
