@@ -61,26 +61,26 @@ class server
         std :: string   set_Oper(request req, int fd);
         std :: string   set_user_mode(request req, int fd);
         std :: string   join_chnl(request req, int fd);
-        void send_replay(client *client, std::string replayNb, std::string message);
+        void            send_replay(client *client, std::string replayNb, std::string message);
         std::vector<std::string> split(std::string str, std::string sep);
 
 
 
         // std::string                 _partCmd( request request, int i);
-        std::string part_command(request req, int fd);
-        std::string topic_command(request req, int fd);
+        std::string                 part_command(request req, int fd);
+        std::string                 topic_command(request req, int fd);
         std :: string               kick_user(request request, int i);
         std::vector<std::string>    comma_sep(std :: string chnlist);
         std::string                 _kick_fromChnl(std::string ChannelName, std::string message, std::vector<std::string> users, int fd);
         int                         _find_FdBy_NickName(std::string NickName);
-        std::string					_printMessage(std::string num, std::string nickname, std::string message);
+        std::string					format_msg(std::string num, std::string nickname, std::string message);
         std :: string               prvmsg(request req, int fd);
         std :: string               prvmsg_user(request req, int fd);
         std :: string               prvmsg_chnl(request req, int fd);
         std :: string               send_to_allUsers(Channel *channelName, int Senderfd, std :: string msg);
-         int                         sendMsg(int fd, std :: string msg);
-
-        int                        list_Cnickname();
+        int                         sendMsg(int fd, std :: string msg);
+        std :: string               quit_cmd(request req, int fd);
+        int                         list_Cnickname();
 
 
 };

@@ -16,7 +16,7 @@ std::string		server:: _kick_fromChnl(std::string ChannelName, std::string messag
 			{
 				ret = _find_FdBy_NickName(*userit);
 				if (ret == -1)
-					return (_printMessage("441", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :They aren't on that channel")));
+					return (format_msg("441", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :They aren't on that channel")));
 				std::string reply = "KICK " + ChannelName;
 				if (message.empty())
 					reply.append("\n");
@@ -31,12 +31,12 @@ std::string		server:: _kick_fromChnl(std::string ChannelName, std::string messag
 			}
 		}
 		else if (user.second == -1  /* Not in channel */)
-			return (_printMessage("442", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :You're not on that channel")));
+			return (format_msg("442", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :You're not on that channel")));
 		else
-			return (_printMessage("482", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :You're not channel operator")));
+			return (format_msg("482", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :You're not channel operator")));
 		return ("");
 	}
-	return (_printMessage("403", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :No such channel")));
+	return (format_msg("403", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :No such channel")));
 }
 
 std:: string server :: kick_user(request request, int fdClient)
@@ -46,7 +46,7 @@ std:: string server :: kick_user(request request, int fdClient)
 		return ( "You have not registered");
 	std :: cout << "PASSEd---01\n";
 	if (request.args.size() < 2)
-        return (_printMessage("461", "KICK",  ERR_NEEDMOREPARAMS));
+        return (format_msg("461", "KICK",  ERR_NEEDMOREPARAMS));
 	std::vector<std::string> channels(comma_sep(request.args[0]));
 	std::vector<std::string> users(comma_sep(request.args[1]));
 	std :: cout << "PASSEd---02\n";

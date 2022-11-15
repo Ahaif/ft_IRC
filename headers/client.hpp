@@ -77,6 +77,7 @@ class client
         void    set_operator();
         std :: string   set_mode(std :: string);
         void    leave_channel(std :: string chanelId);
+        void    leave_all_chnl();
     //function to check if the client is joined to a channel 
 
 };

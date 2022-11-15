@@ -88,7 +88,7 @@ std::vector<std::string> server::split(std::string str, std::string sep)
 	return (args);
 }
 
-std::string	server ::_printMessage(std::string num, std::string nickname, std::string message)
+std::string	server :: format_msg(std::string num, std::string nickname, std::string message)
 {
 	if (nickname.empty())
 		nickname = "*";
@@ -104,4 +104,35 @@ int :: server :: list_Cnickname()
 		std :: cout << _clientMap[i]->get_Nickname() << std :: endl;
 	}
 	return(i);
+}
+
+
+
+
+
+std :: string server :: quit_cmd(request req, int fd)
+{
+	std::string ans = this->_clientMap[fd]->getUserPerfix() + "QUIT ";
+	if (req.args.size())
+		ans.append(":" + req.args[0] + "\n");
+	else
+		ans.append("\n");
+	std::map<std::string, Channel *>::iterator it = _channels.begin();
+	while (it != _channels.end())
+	{
+		// we can optimize , instead of loopig throug all channel we work with the map joined_chanels in client
+		if(it->second->isMember(_clientMap[fd]))
+		{
+			 std :: string               send_to_allUsers(Channel *channelName, int Senderfd, std :: string msg);
+			send_to_allUsers(it->second, fd, ans);
+			// implement leave all chnls
+			close(this->_clientMap[fd]->get_Clientfd());
+			remove_from_poll(fd);
+		}
+		else
+			it++;
+		
+	}
+	
+	return ("QUIT");
 }

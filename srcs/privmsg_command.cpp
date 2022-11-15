@@ -25,7 +25,7 @@ std :: string server :: prvmsg_user(request req, int fd)
 {
     int userFd = _find_FdBy_NickName(req.args[0]);
     if (userFd == -1)
-       return (_printMessage("401", this->_clientMap[fd]->get_Nickname(), " :No such nick/channel"));
+       return (format_msg("401", this->_clientMap[fd]->get_Nickname(), " :No such nick/channel"));
     std::string ans = this->_clientMap[fd]->getUserPerfix();
 	ans.append(req.cmd + " " + req.args[0] + " :" + req.args[1] + "\n");
 	if (sendMsg(userFd, ans) == -1)
@@ -61,13 +61,13 @@ std :: string server :: prvmsg_chnl(request req, int fd)
 	{
 		std::pair<client *, int> user = it->second->pick_user_role(fd);
 		if (user.second == -1 )
-			return (_printMessage("404", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :Cannot send to channel")));
+			return (format_msg("404", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :Cannot send to channel")));
 		std::string msg("PRIVMSG " + req.args[0] + " :" + req.args[1] + "\n");
 		// _sendToAllUsers(it->second, i, msg);
         send_to_allUsers(it->second, fd, msg);
 	}
 	else
-		return (_printMessage("401", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :No such nick/channel")));
+		return (format_msg("401", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :No such nick/channel")));
 	return ("");
 
 }
@@ -75,9 +75,9 @@ std :: string server :: prvmsg_chnl(request req, int fd)
 std :: string server :: prvmsg(request req, int fd)
 {
     if(!this->_clientMap[fd]->get_registration())
-        return(_printMessage("401", this->_clientMap[fd]->get_Nickname(), ":No such nick/channel"));
+        return(format_msg("401", this->_clientMap[fd]->get_Nickname(), ":No such nick/channel"));
     if (req.args.size() < 2)
-		return (_printMessage("461", this->_clientMap[fd]->get_Nickname(), ":Not enough parameters"));
+		return (format_msg("461", this->_clientMap[fd]->get_Nickname(), ":Not enough parameters"));
     if(req.args.size() == 2)
     {
         if (req.args[0].find(",") != std::string::npos)
