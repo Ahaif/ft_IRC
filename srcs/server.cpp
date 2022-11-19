@@ -120,7 +120,7 @@ std :: string server :: quit_cmd(request req, int fd)
 		// we can optimize , instead of loopig throug all channel we work with the map joined_chanels in client
 		if(it->second->isMember(_clientMap[fd]))
 		{
-			send_to_allUsers(it->second, fd, ans);
+			send_to_allUsers(it->second, fd, ans, false);
 			_clientMap[fd]->leave_channel(it->first);
 			close(this->_clientMap[fd]->get_Clientfd());
 			remove_from_poll(fd);

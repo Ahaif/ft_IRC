@@ -34,7 +34,7 @@ std :: string server :: prvmsg_user(request req, int fd)
 
 }
 
-std :: string server :: send_to_allUsers(Channel *chnlName, int senderFd, std :: string msg)
+std :: string server :: send_to_allUsers(Channel *chnlName, int senderFd, std :: string msg, bool includeSender)
 {
     std::map<int, client *> allusers = chnlName->collect_users();
 	std::map<int, client *>::iterator it = allusers.begin();
@@ -42,12 +42,22 @@ std :: string server :: send_to_allUsers(Channel *chnlName, int senderFd, std ::
 	reply.append(msg);
 	while (it != allusers.end())
 	{
-		if (senderFd != it->first)
+		if (includeSender == true)
+		{
 			if (sendMsg(it->first, reply) == -1)
 			{
 				std::cout << "_sendall() error: " << strerror(errno) << std::endl;
 				return ("");
 			}
+		}
+		else if (senderFd != it->first)
+		{
+			if (sendMsg(it->first, reply) == -1)
+			{
+				std::cout << "_sendall() error: " << strerror(errno) << std::endl;
+				return ("");
+			}
+		}
 		it++;
 	}
 	return ("");
@@ -64,7 +74,7 @@ std :: string server :: prvmsg_chnl(request req, int fd)
 			return (format_msg("404", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :Cannot send to channel")));
 		std::string msg("PRIVMSG " + req.args[0] + " :" + req.args[1] + "\n");
 		// _sendToAllUsers(it->second, i, msg);
-        send_to_allUsers(it->second, fd, msg);
+        send_to_allUsers(it->second, fd, msg, false);
 	}
 	else
 		return (format_msg("401", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :No such nick/channel")));
