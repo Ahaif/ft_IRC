@@ -191,3 +191,90 @@ std::map<int, client *>	Channel:: collect_users() const
 	allUsers.insert(this->_voice.begin(), this->_voice.end());
 	return (allUsers);
 };
+
+void Channel::set_mode(char mode, bool status, std::string arg)
+{
+    if (mode == 'i')
+        _isinviteonly = status;
+    else if (mode == 'm')
+        _isModerated = status;
+    else if (mode == 'p')
+        _isPrivate = status;
+    else if (mode == 's')
+        _isSecret= status;
+    else if (mode == 't')
+        _isTopicSet = status;
+    else if (mode == 'k')
+    {
+        _isKeySet = status;
+        _key = arg;
+    }
+    else if (mode == 'l')
+    {
+        _isLimitSet = status;
+        _limitUsers = atoi(arg.c_str());
+    }
+}
+
+bool    Channel::isOperator(client *newMember)
+{
+    if (_operators.find(newMember->get_Clientfd()) != _operators.end())
+        return true;
+    return false;
+}
+
+bool Channel::isInviteOnly()
+{
+    return _isinviteonly;
+}
+
+bool Channel::isKeySet()
+{
+    return _isKeySet;
+}
+
+bool Channel::isLimitSet()
+{
+    return _isLimitSet;
+}
+
+bool Channel::isPrivate()
+{
+    return _isPrivate;
+}
+
+bool Channel::isSecret()
+{
+    return _isSecret;
+}
+
+bool Channel::isModerated()
+{
+    return _isModerated;
+}
+
+bool Channel::isTopicSet()
+{
+    return _isTopicSet;
+}
+
+std::string Channel::get_modes()
+{
+    std::string modes = "";
+    std::cout << "channel mode end 1" << std::endl;
+    if (this->_isinviteonly == true)
+        modes += "i";
+    if (this->_isKeySet == true)
+        modes += "k";
+    if (this->_isLimitSet == true)
+        modes += "l";
+    if (this->_isPrivate == true)
+        modes += "p";
+    if (this->_isSecret == true)
+        modes += "s";
+    if (this->_isTopicSet == true)
+        modes += "t";
+    if (this->_isModerated == true)
+        modes += "m";
+    return (modes);
+}

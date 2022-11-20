@@ -81,6 +81,8 @@ class server
         int                         sendMsg(int fd, std :: string msg);
         std :: string               quit_cmd(request req, int fd);
         int                         list_Cnickname();
+        std::string mode_command(request req, int fd);
+        std::string set_channel_mode(request req, int fd);
 
 
 };

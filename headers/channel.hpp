@@ -34,7 +34,14 @@ private:
     std::map<int, client *>     _operators;
     std::map<int, client *>     _voice;
     std::vector<std::string>    _banned;
-   
+    bool _isinviteonly;
+    bool _isPrivate;
+    bool _isSecret;
+    bool _isModerated;
+    bool _isTopicSet;
+    bool _isLimitSet;
+    bool _isKeySet;
+    int _limitUsers;
 
 private:
     Channel();
@@ -58,12 +65,22 @@ public:
 	// void	removeBanned( std::string NickName );
 	void            removeMember(client *Member);
     bool            isMember(client *newMember);
+    bool            isOperator(client *newMember);
     int             get_onlineUsers();
     std::string     get_topic();
     void            set_topic(std::string newTopic);
     int             add_Operator( client *member );
     void            print_Operatorchnl();
     int            memberSize();
+    bool            isInviteOnly();
+    bool            isPrivate();
+    bool            isSecret();
+    bool            isModerated();
+    bool            isTopicSet();
+    bool            isLimitSet();
+    bool            isKeySet();
+    std::string     get_modes();
+    void            set_mode(char mode, bool status, std::string arg);
 };
 
 #endif

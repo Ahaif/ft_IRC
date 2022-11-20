@@ -82,7 +82,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "OPER")
         return (set_Oper(req, clientFd));
     else if (req.cmd == "MODE")
-        return (set_user_mode(req, clientFd));
+        return (mode_command(req, clientFd));
     else if (req.cmd == "INVITE")
         return ("Channel operation invite");
     else if (req.cmd == "NAMES")

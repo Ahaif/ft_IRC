@@ -20,7 +20,7 @@ void server ::new_connection()
 	int clientFD;
 
 	addrlen = sizeof(remotaddr);
-	clientFD = accept(this->_socketFd, (struct sockaddr *) &remotaddr, &addrlen);
+	clientFD = accept(this->_socketFd, (struct sockaddr *)&remotaddr, &addrlen);
 	if (clientFD == -1)
 		std::cout << "accept() error: " << strerror(errno) << std::endl;
 	else
@@ -66,11 +66,12 @@ server::~server()
 
 void server::send_replay(client *client, std::string replayNb, std::string replay)
 {
-	std::string message = client->get_Nickname();
+	std::string nickName = client->get_Nickname();
+	std::string message;
 
-	if (message == "")
-		message = "*";
-	message = message + " " + replayNb + " " + replay;
+	if (nickName.empty())
+		nickName = "*";
+	message = ":" + this->_name + " " + replayNb + " " + nickName + " " + replay + "\n";
 	write(client->get_Clientfd(), message.c_str(), message.size());
 }
 
@@ -79,35 +80,33 @@ std::vector<std::string> server::split(std::string str, std::string sep)
 	std::vector<std::string> args;
 	size_t start = 0;
 	size_t found = !std::string::npos;
-    while (found != std::string::npos)
-    {
-        found = str.find(sep, start);
-        args.push_back(str.substr(start, found - start));
-        start = found + sep.length();
-    }
+	while (found != std::string::npos)
+	{
+		found = str.find(sep, start);
+		args.push_back(str.substr(start, found - start));
+		start = found + sep.length();
+	}
 	return (args);
 }
 
-std::string	server :: format_msg(std::string num, std::string nickname, std::string message)
+std::string server ::format_msg(std::string num, std::string nickname, std::string message)
 {
 	if (nickname.empty())
 		nickname = "*";
 	return (":" + this->_name + " " + num + " " + nickname + " " + message + "\n");
 }
 
-
-int :: server :: list_Cnickname()
+int ::server ::list_Cnickname()
 {
-	int i =0;
-	for(; i < (int)this->_clientMap.size(); i++)
+	int i = 0;
+	for (; i < (int)this->_clientMap.size(); i++)
 	{
-		std :: cout << _clientMap[i]->get_Nickname() << std :: endl;
+		std ::cout << _clientMap[i]->get_Nickname() << std ::endl;
 	}
-	return(i);
+	return (i);
 }
 
-
-std :: string server :: quit_cmd(request req, int fd)
+std ::string server ::quit_cmd(request req, int fd)
 {
 	std::string ans = this->_clientMap[fd]->getUserPerfix() + "QUIT ";
 	if (req.args.size() && req.args[0] != " ")
@@ -118,7 +117,7 @@ std :: string server :: quit_cmd(request req, int fd)
 	while (it != _channels.end())
 	{
 		// we can optimize , instead of loopig throug all channel we work with the map joined_chanels in client
-		if(it->second->isMember(_clientMap[fd]))
+		if (it->second->isMember(_clientMap[fd]))
 		{
 			send_to_allUsers(it->second, fd, ans, false);
 			_clientMap[fd]->leave_channel(it->first);
