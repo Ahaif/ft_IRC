@@ -52,7 +52,7 @@ void server ::start_server()
 				if (this->_pfds[i].fd == this->_socketFd) //
 					new_connection();
 				else
-					handle_request(i, _clientMap.at(_pfds[i].fd));
+					handle_request(i);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 #include "../headers/client.hpp"
 
-client ::client() : _clientfd(0), _is_registred(false), _is_connected(false), _NickName(), _UserName(), _FullName(), _Host("abdel_test"), _ID(), _buff(""){};
+client ::client() : _clientfd(0), _is_registred(false), _is_connected(false), _NickName(), _UserName(), _FullName(), _Host("abdel_test"), _ID(){};
 client ::client(int fd) : _clientfd(fd), _is_registred(false), _is_connected(false), _NickName(), _UserName(), _FullName(), _Host(), _ID(){};
 client ::client(const client &x) : _Host("abdel_test") { *this = x; };
 
@@ -34,7 +34,6 @@ void	client::leave_channel( std::string ChannelName )
 
 // getters
 
-std::string &client ::get_Buff() {return this->_buff; }
 int client ::get_Clientfd() { return this->_clientfd; }
 bool client ::get_registration() { return this->_is_registred; }
 bool client ::get_connection() { return this->_is_connected; }

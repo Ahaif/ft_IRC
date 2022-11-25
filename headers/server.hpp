@@ -52,7 +52,7 @@ class server
         void            new_connection();
         void            add_to_poll(int fd);
         void            remove_from_poll(int fd);
-        void            handle_request(int i , client *client);
+        void            handle_request(int i);
         std :: string   parse_request(std :: string req, int i);
         request         split_msg(std :: string req);
         std :: string   set_pssw(request req, int fd);

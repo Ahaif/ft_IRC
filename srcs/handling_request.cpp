@@ -1,6 +1,6 @@
 #include "../headers/server.hpp"
 
-void server ::handle_request(int position, client *client)
+void server ::handle_request(int position)
 {
 	// split request
 	char buf[5000];
@@ -23,20 +23,16 @@ void server ::handle_request(int position, client *client)
 	}
 	else
 	{
-		buf[nbytes] = '\0';
-		client->get_Buff().append(buf);
-	}
-	if (buf[nbytes - 1] == '\n')
-	{
-		std::cout << client->get_Buff();
-		std::string ret = parse_request(client->get_Buff(), clientFd);
+		buf[nbytes] = 0;
+		std::string message(buf, strlen(buf) - 1);
+		// if (message[message.size()- 1] ==  '\r')
+		// 	message.erase(message.size() - 1);
+		std::string ret = parse_request(message, clientFd);
 		if(ret.size())
 		{
 			if (send(clientFd, ret.c_str(), ret.length(), 0) == -1)
 			std::cout << "send() error: " << strerror(errno) << std::endl;
 			std ::cout << ret << std ::endl;
 		}
-		
-		client->get_Buff().erase();
 	}
 }

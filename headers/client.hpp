@@ -29,7 +29,6 @@ class client
         std :: string                       _FullName;
         const std::string					_Host;
 		std::string							_ID;
-        std::string                         _buff;
 		struct sockaddr_storage				_remotaddr;
 		socklen_t							_addrlen;
         struct Modes                        _modes;
@@ -53,7 +52,6 @@ class client
         std :: string           get_Nickname();
         std :: string           get_Username();
         std :: string           get_FullName();
-        std::string             &get_Buff();
         const std :: string     get_Host();
         std :: string           get_ID();
         struct sockaddr_storage get_remoteaddr();
