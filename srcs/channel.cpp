@@ -282,3 +282,8 @@ void Channel::add_invited_client(client *newMember)
 {
     _invited.insert(std::pair<int, client *>(newMember->get_Clientfd(), newMember));
 }
+
+std::map<int, client *> &Channel::getMembers()
+{
+    return _members;
+}

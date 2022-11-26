@@ -84,6 +84,7 @@ class server
         std::string mode_command(request req, int fd);
         std::string set_channel_mode(request req, int fd);
         std::string invite_command(request req, int fd);
+        std::string notice_command(request req, int fd);
 
 
 

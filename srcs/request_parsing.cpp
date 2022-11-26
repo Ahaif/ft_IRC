@@ -92,7 +92,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "PRIVMSG")
         return (prvmsg(req, clientFd));
     else if (req.cmd == "NOTICE")
-        return (" execute NOTICE CMD");
+        return (notice_command(req, clientFd));
     else if (req.cmd == "JOIN")
         return (join_chnl(req, clientFd));
     else if (req.cmd == "TOPIC")

@@ -83,6 +83,7 @@ public:
     std::string     get_modes();
     void add_invited_client(client *newMember);
     void            set_mode(char mode, bool status, std::string arg);
+    std::map<int, client *> &getMembers();
 };
 
 #endif

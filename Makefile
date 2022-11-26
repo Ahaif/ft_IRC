@@ -27,6 +27,7 @@ topic.cpp\
 privmsg_command.cpp\
 mode.cpp\
 invite.cpp\
+notice.cpp\
 
 
 HEADERS_FILES = headers/server.hpp \
