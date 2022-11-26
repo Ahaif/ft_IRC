@@ -81,6 +81,9 @@ class client
         void    add_invited_channel(std :: string channelName, Channel *chanel);
         bool    isHasNoChannel();
         void    part_from_channel(Channel *channel);
+        void    add_channel(std :: string channelName, Channel *chanel);
+        bool    is_invited_to(Channel *invitedChannel);
+
     //function to check if the client is joined to a channel 
 
 };

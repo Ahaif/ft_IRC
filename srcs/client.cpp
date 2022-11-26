@@ -84,3 +84,15 @@ void    client::part_from_channel(Channel *channel)
     if (_invitedChannels.find(channelName) != _invitedChannels.end())
         _invitedChannels.erase(channelName);
 }
+
+bool client::is_invited_to(Channel *invitedChannel)
+{
+    std::map<std::string, Channel *>::iterator it = _invitedChannels.begin();
+
+    for (; it != _invitedChannels.end(); it++)
+    {
+        if (it->first == invitedChannel->get_name())
+            return true;
+    }
+    return false;
+}

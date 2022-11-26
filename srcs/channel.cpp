@@ -145,7 +145,10 @@ int :: Channel :: memberSize()
 // 	this->_onlineUsers--;
 // };
 
-
+void client ::add_channel(std ::string channelName, Channel *chanel)
+{
+    _joinedChannels[channelName] = chanel;
+}
 
 std::string Channel::get_key()
 {
