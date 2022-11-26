@@ -69,3 +69,9 @@ void client::add_invited_channel(std ::string channelName, Channel *chanel)
 {
     _invitedChannels[channelName] = chanel;
 }
+bool client ::isHasNoChannel()
+{
+    if (this->_joinedChannels.size() == 0)
+        return (true);
+    return (false);
+}

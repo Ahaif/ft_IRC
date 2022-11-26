@@ -20,6 +20,7 @@
 #include <netdb.h>
 #include <poll.h>
 #include <time.h>
+#include <set>
 
 #include "request.hpp"
 #include "client.hpp"
@@ -85,6 +86,7 @@ class server
         std::string set_channel_mode(request req, int fd);
         std::string invite_command(request req, int fd);
         std::string notice_command(request req, int fd);
+        std::string names_command(request req, int fd);
 
 
 

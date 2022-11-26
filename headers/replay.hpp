@@ -14,11 +14,15 @@
 #define ERR_BADCHANNELKEY ":Cannot join channel (+k)"
 #define ERR_NOTONCHANNEL  ":You're not on that channel"
 #define RPL_NOTOPIC  ":No topic is set"
+#define ERR_INVITEONLYCHAN  ":Cannot join channel (+i)"
 #define ERR_CHANOPRIVSNEEDED  ":You're not channel operator"
 #define ERR_NOSUCHNICK  ":No such nick/channel"
 #define ERR_KEYSET  ":Channel key already set"
 #define ERR_UNKNOWNMODE ":is unknown mode char to me"
 #define ERR_USERONCHANNEL ":is already on channel"
+#define RPL_ENDOFNAMES ":End of /NAMES list"
+#define RPL_LISTSTART "Channel :Users  Name"
+#define RPL_LISTEND ":End of /LIST"
 
 
 #endif

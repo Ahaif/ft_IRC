@@ -86,7 +86,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "INVITE")
         return (invite_command(req, clientFd));
     else if (req.cmd == "NAMES")
-        return ("Channel operation names");
+        return (names_command(req, clientFd));
     else if (req.cmd == "LISTS")
         return ("Channel operation lists");
     else if (req.cmd == "PRIVMSG")

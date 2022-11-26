@@ -28,7 +28,7 @@ privmsg_command.cpp\
 mode.cpp\
 invite.cpp\
 notice.cpp\
-
+names.cpp
 
 HEADERS_FILES = headers/server.hpp \
 headers/channel.hpp\

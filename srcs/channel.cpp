@@ -287,3 +287,17 @@ std::map<int, client *> &Channel::getMembers()
 {
     return _members;
 }
+
+std::string Channel::getMembersNickNames()
+{
+    std::string members;
+    std::map<int, client *>::iterator it;
+    for (it = this->_members.begin(); it != this->_members.end(); it++)
+    {
+        if (isOperator(it->second))
+            members += "@";
+        members += it->second->get_Nickname();
+        members += " ";
+    }
+    return (members);
+}

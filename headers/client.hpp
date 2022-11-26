@@ -79,6 +79,7 @@ class client
         void    leave_channel(std :: string chanelId);
         void    leave_all_chnl();
         void    add_invited_channel(std :: string channelName, Channel *chanel);
+        bool    isHasNoChannel();
     //function to check if the client is joined to a channel 
 
 };
