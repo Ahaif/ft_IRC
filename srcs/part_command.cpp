@@ -1,28 +1,31 @@
 #include "../headers/server.hpp"
 
-
-std::vector<std::string> server::comma_sep(std :: string chnlist)
+std::vector<std::string> server::comma_sep(std ::string chnlist)
 {
     std::vector<std::string> ret;
-	size_t pos = 0;
-	while ((pos = chnlist.find(",")) != std::string::npos)
-	{
-		ret.push_back(chnlist.substr(0, pos));
-		chnlist.erase(0, pos + 1);
-	}
-	ret.push_back(chnlist.substr(0, pos));
-	return (ret);
+    size_t pos = 0;
+    while ((pos = chnlist.find(",")) != std::string::npos)
+    {
+        ret.push_back(chnlist.substr(0, pos));
+        chnlist.erase(0, pos + 1);
+    }
+    ret.push_back(chnlist.substr(0, pos));
+    return (ret);
 }
-
 
 std::string server::part_command(request req, int fd)
 {
     std::vector<std::string> names;
     std::vector<std::string> reasons;
-    if (!this->_clientMap[fd]->get_registration())
-        send_replay(_clientMap[fd], "451", ERR_NOTREGISTERED);
-    else if (req.args.size() == 0)
-        send_replay(_clientMap[fd], "461", ERR_NEEDMOREPARAMS);
+    client *clnt = _clientMap[fd];
+    std::string prefix = ":" + _name + " ";
+    std::string nick = clnt->get_Nickname();
+    std::string message;
+
+    if (clnt->get_registration() == false)
+        send_replay1(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
+    else if (req.args.size() == 0 || (req.args.size() == 1 && req.args[0] == ""))
+        send_replay1(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
     else
     {
         names = split(req.args[0], ",");
@@ -34,22 +37,20 @@ std::string server::part_command(request req, int fd)
         {
             if (_channels.find(names[i]) != _channels.end())
             {
-                if (_channels[names[i]]->isMember(_clientMap[fd]))
+                if (_channels[names[i]]->isMember(clnt))
                 {
-                    _channels[names[i]]->removeMember(_clientMap[fd]);
-                    std::cout << _channels[names[i]]->get_onlineUsers() << std::endl;
+                    message = "PART " + names[i] + " :" + reasons[i] + "\n";
+                    send_to_allUsers(_channels[names[i]], fd, message, true);
+                    _channels[names[i]]->remove_from_channel(clnt);
+                    clnt->part_from_channel(_channels[names[i]]);
                     if (_channels[names[i]]->get_onlineUsers() == 0)
-                    {
                         _channels.erase(names[i]);
-                        send_replay(_clientMap[fd], "Channel: " + names[i], " is removed\n");
-                    }
-                    send_replay(_clientMap[fd], " leave channel ", names[i] + "\n");
                 }
                 else
-                    send_replay(_clientMap[fd], "442", names[i] + ERR_NOTONCHANNEL);
+                    send_replay1(clnt, prefix, "442", nick, names[i] + " " + ERR_NOTONCHANNEL);
             }
             else
-                send_replay(_clientMap[fd], "403", names[i] + ERR_NOSUCHCHANNEL);
+                send_replay1(clnt, prefix, "403", nick, names[i] + " " + ERR_NOSUCHCHANNEL);
         }
     }
     return "";

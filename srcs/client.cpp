@@ -75,3 +75,12 @@ bool client ::isHasNoChannel()
         return (true);
     return (false);
 }
+void    client::part_from_channel(Channel *channel)
+{
+    std::string channelName = channel->get_name();
+
+    if(_joinedChannels.find(channelName) != _joinedChannels.end())
+        _joinedChannels.erase(channelName);
+    if (_invitedChannels.find(channelName) != _invitedChannels.end())
+        _invitedChannels.erase(channelName);
+}

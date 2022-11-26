@@ -301,3 +301,20 @@ std::string Channel::getMembersNickNames()
     }
     return (members);
 }
+
+void Channel::remove_from_channel(client *member)
+{
+    int clientFd = member->get_Clientfd();
+
+    if (_members.find(clientFd) != _members.end())
+    {
+        _members.erase(clientFd);
+        _onlineUsers--;
+    }
+    if (_operators.find(clientFd) != _operators.end())
+        _operators.erase(clientFd);
+    if (_voice.find(clientFd) != _voice.end())
+        _voice.erase(clientFd);
+    if (_invited.find(clientFd) != _invited.end())
+        _invited.erase(clientFd);
+}

@@ -85,6 +85,7 @@ public:
     void            set_mode(char mode, bool status, std::string arg);
     std::map<int, client *> &getMembers();
     std::string getMembersNickNames();
+    void remove_from_channel(client *member);
 };
 
 #endif
