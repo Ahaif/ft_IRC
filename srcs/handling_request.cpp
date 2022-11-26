@@ -25,8 +25,8 @@ void server ::handle_request(int position)
 	{
 		buf[nbytes] = 0;
 		std::string message(buf, strlen(buf) - 1);
-		// if (message[message.size()- 1] ==  '\r')
-		// 	message.erase(message.size() - 1);
+		if (message[message.size()- 1] ==  '\r')
+			message.erase(message.size() - 1);
 		std::string ret = parse_request(message, clientFd);
 		if(ret.size())
 		{

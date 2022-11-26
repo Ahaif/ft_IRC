@@ -87,7 +87,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
         return (invite_command(req, clientFd));
     else if (req.cmd == "NAMES")
         return (names_command(req, clientFd));
-    else if (req.cmd == "LISTS")
+    else if (req.cmd == "LIST")
         return (list_command(req, clientFd));
     else if (req.cmd == "PRIVMSG")
         return (prvmsg(req, clientFd));
