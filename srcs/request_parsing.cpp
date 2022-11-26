@@ -88,7 +88,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "NAMES")
         return (names_command(req, clientFd));
     else if (req.cmd == "LISTS")
-        return ("Channel operation lists");
+        return (list_command(req, clientFd));
     else if (req.cmd == "PRIVMSG")
         return (prvmsg(req, clientFd));
     else if (req.cmd == "NOTICE")

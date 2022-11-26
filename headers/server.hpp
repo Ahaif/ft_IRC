@@ -87,6 +87,7 @@ class server
         std::string invite_command(request req, int fd);
         std::string notice_command(request req, int fd);
         std::string names_command(request req, int fd);
+        std::string list_command(request req, int fd);
 
 
 
