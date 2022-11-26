@@ -63,7 +63,7 @@ class server
         std :: string   join_chnl(request req, int fd);
         void            send_replay(client *client, std::string replayNb, std::string message);
         std::vector<std::string> split(std::string str, std::string sep);
-
+        void send_replay1(client *cleint, std::string prefix, std::string replayNb, std::string nick, std::string replay);
 
 
         // std::string                 _partCmd( request request, int i);

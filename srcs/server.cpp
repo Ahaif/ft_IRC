@@ -106,6 +106,20 @@ int ::server ::list_Cnickname()
 	return (i);
 }
 
+void server::send_replay1(client *client, std::string prefix, std::string replayNb, std::string nick, std::string replay)
+{
+	std::string message = "";
+
+	if (nick.empty())
+		nick = "*";
+	message =  prefix + replayNb + " " + nick;
+	if (!replay.empty())
+		message += " " + replay;
+	message += "\r\n";
+	std::cout << "send: " << message << std::endl;
+	write(client->get_Clientfd(), message.c_str(), message.size());
+}
+
 std ::string server ::quit_cmd(request req, int fd)
 {
 	std::string ans = this->_clientMap[fd]->getUserPerfix() + "QUIT ";
