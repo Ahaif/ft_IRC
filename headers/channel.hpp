@@ -34,6 +34,7 @@ private:
     std::map<int, client *>     _operators;
     std::map<int, client *>     _voice;
     std::vector<std::string>    _banned;
+    std::map<int, client *>     _invited;
     bool _isinviteonly;
     bool _isPrivate;
     bool _isSecret;
@@ -80,6 +81,7 @@ public:
     bool            isLimitSet();
     bool            isKeySet();
     std::string     get_modes();
+    void add_invited_client(client *newMember);
     void            set_mode(char mode, bool status, std::string arg);
 };
 

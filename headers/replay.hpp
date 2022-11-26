@@ -18,6 +18,7 @@
 #define ERR_NOSUCHNICK  ":No such nick/channel"
 #define ERR_KEYSET  ":Channel key already set"
 #define ERR_UNKNOWNMODE ":is unknown mode char to me"
+#define ERR_USERONCHANNEL ":is already on channel"
 
 
 #endif

@@ -83,6 +83,8 @@ class server
         int                         list_Cnickname();
         std::string mode_command(request req, int fd);
         std::string set_channel_mode(request req, int fd);
+        std::string invite_command(request req, int fd);
+
 
 
 };

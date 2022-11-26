@@ -25,7 +25,8 @@ part_command.cpp\
 kick_command.cpp\
 topic.cpp\
 privmsg_command.cpp\
-mode.cpp
+mode.cpp\
+invite.cpp\
 
 
 HEADERS_FILES = headers/server.hpp \

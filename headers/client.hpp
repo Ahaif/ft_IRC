@@ -36,6 +36,8 @@ class client
         //add Modes data as struct
 		//add map fpr joined channel
         std :: map<std :: string, Channel *>         _joinedChannels;
+        std :: map<std :: string, Channel *>         _invitedChannels;
+
     public:
         client();
         client(int fd);
@@ -76,6 +78,7 @@ class client
         std :: string   set_mode(std :: string);
         void    leave_channel(std :: string chanelId);
         void    leave_all_chnl();
+        void    add_invited_channel(std :: string channelName, Channel *chanel);
     //function to check if the client is joined to a channel 
 
 };

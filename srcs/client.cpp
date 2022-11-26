@@ -64,3 +64,8 @@ void client ::set_operator()
     this->_modes.op = true;
     this->_modes.localOp = true;
 };
+
+void client::add_invited_channel(std ::string channelName, Channel *chanel)
+{
+    _invitedChannels[channelName] = chanel;
+}

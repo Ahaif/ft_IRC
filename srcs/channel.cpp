@@ -278,3 +278,7 @@ std::string Channel::get_modes()
         modes += "m";
     return (modes);
 }
+void Channel::add_invited_client(client *newMember)
+{
+    _invited.insert(std::pair<int, client *>(newMember->get_Clientfd(), newMember));
+}

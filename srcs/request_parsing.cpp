@@ -84,7 +84,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "MODE")
         return (mode_command(req, clientFd));
     else if (req.cmd == "INVITE")
-        return ("Channel operation invite");
+        return (invite_command(req, clientFd));
     else if (req.cmd == "NAMES")
         return ("Channel operation names");
     else if (req.cmd == "LISTS")
