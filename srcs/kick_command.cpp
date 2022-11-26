@@ -11,32 +11,27 @@ std::string		server:: _kick_fromChnl(std::string ChannelName, std::string messag
 		if (user.second == 1)
 		{
 			std::vector<std::string>::iterator userit = users.begin();
-			
 			while (userit != users.end())
 			{
+
 				ret = _find_FdBy_NickName(*userit);
 				if (ret == -1)
-					return (format_msg("441", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :They aren't on that channel")));
+					return (format_msg("441", this->_clientMap[fd]->get_Nickname(), ChannelName.append(" :They aren't on that channel")));
 				std::string reply = "KICK " + ChannelName;
-				if (message.empty())
-					reply.append("\n");
-				else
+				if(!message.empty())
 					reply.append(" " + message + "\n");
 				_channels[ChannelName]->removeMember(_clientMap[ret]);
-				// if(_channels[ChannelName]->memberSize() == 0)
-				// 	_channels.erase(ChannelName);
-				//NOTIFY USERS ABOUT REPLY
-				// std :: cout << "user: " << _clientMap[ret]->get_Nickname() << "removed from "<< _channels[ChannelName]->get_name() << std :: endl;
+				send_to_allUsers(it->second, fd, reply, false);
 				userit++;
 			}
 		}
 		else if (user.second == -1  /* Not in channel */)
-			return (format_msg("442", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :You're not on that channel")));
+			return (format_msg("442", this->_clientMap[fd]->get_Nickname(), ChannelName.append(" :You're not on that channel")));
 		else
-			return (format_msg("482", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :You're not channel operator")));
+			return (format_msg("482", this->_clientMap[fd]->get_Nickname(), ChannelName.append(" :You're not channel operator")));
 		return ("");
 	}
-	return (format_msg("403", this->_clientMap[ret]->get_Nickname(), ChannelName.append(" :No such channel")));
+	return (format_msg("403", this->_clientMap[fd]->get_Nickname(), ChannelName.append(" :No such channel")));
 }
 
 std:: string server :: kick_user(request request, int fdClient)
@@ -44,24 +39,30 @@ std:: string server :: kick_user(request request, int fdClient)
 
     if (!this->_clientMap[fdClient]->get_registration())
 		return ( "You have not registered");
-	std :: cout << "PASSEd---01\n";
+	
 	if (request.args.size() < 2)
         return (format_msg("461", "KICK",  ERR_NEEDMOREPARAMS));
 	std::vector<std::string> channels(comma_sep(request.args[0]));
 	std::vector<std::string> users(comma_sep(request.args[1]));
-	std :: cout << "PASSEd---02\n";
+	
 	std::vector<std::string>::iterator it = channels.begin();
 	while (it != channels.end())
 	{
 		std::string ret;
 		if (request.args.size() == 3)
-			ret = _kick_fromChnl(*it, request.args[2], users, fdClient);
+		{
+			if(request.args[2] == "\r")
+				ret = _kick_fromChnl(*it, "DEFAULT msg", users, fdClient);
+			else
+				ret = _kick_fromChnl(*it, request.args[2], users, fdClient);
+		}
 		else
 			ret = _kick_fromChnl(*it, "Default msg", users, fdClient);
-	
 		if(!ret.empty())
 			return(ret);
+		std :: cout << "PASSEd---05\n";
 		it++;
+		
 	}
 	return ("");
 }

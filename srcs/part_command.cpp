@@ -4,6 +4,12 @@ std::vector<std::string> server::comma_sep(std ::string chnlist)
 {
     std::vector<std::string> ret;
     size_t pos = 0;
+    pos = chnlist.find(",");
+    if((pos = chnlist.find(",")) == std::string::npos)
+    {
+        ret.push_back(chnlist);
+        return(ret);
+    }
     while ((pos = chnlist.find(",")) != std::string::npos)
     {
         ret.push_back(chnlist.substr(0, pos));

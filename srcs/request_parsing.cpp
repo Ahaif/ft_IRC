@@ -64,13 +64,14 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
 {
     std::string tmp(msg);
     request req(split_msg(tmp));
-    // std ::cout << "Cmd req is : " << req.cmd << std ::endl;
-    // std ::cout << "-----------------" << std ::endl;
-    // for (unsigned long i = 0; i < req.args.size(); i++)
-    // {
-    //     std ::cout << "Args requests : " << req.args[i] << std ::endl;
-    // }
-    // std ::cout << "-----------------" << std ::endl;
+    std :: cout << "req.args.size() is: " << req.args.size() << std :: endl;
+    std ::cout << "Cmd req is : " << req.cmd << std ::endl;
+    std ::cout << "-----------------" << std ::endl;
+    for (unsigned long i = 0; i < req.args.size(); i++)
+    {
+        std ::cout << "Args requests : " << req.args[i] << std ::endl;
+    }
+    std ::cout << "-----------------" << std ::endl;
     if (req.invalidMsg)
         return ("Invalid message!\n");
     if (req.cmd == "PASS")
@@ -108,7 +109,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "GETFILE")
         return (" execute Pass CMD");
     else if (req.cmd == "BOT")
-        return (" execute  CMD");
+        return (bot_lunch(req, clientFd));
     else if (req.cmd == "LS")
     {
        list_Cnickname();

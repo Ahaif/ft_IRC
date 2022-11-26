@@ -29,7 +29,8 @@ mode.cpp\
 invite.cpp\
 notice.cpp\
 names.cpp\
-list.cpp
+list.cpp\
+bot.cpp
 
 HEADERS_FILES = headers/server.hpp \
 headers/channel.hpp\

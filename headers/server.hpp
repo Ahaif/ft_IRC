@@ -88,7 +88,10 @@ class server
         std::string notice_command(request req, int fd);
         std::string names_command(request req, int fd);
         std::string list_command(request req, int fd);
-
+        std :: string   bot_lunch(request req, int fd);
+        std :: string   get_online_user();
+        std :: string   list_all_channels();
+        std :: string   srv_info();
 
 
 };

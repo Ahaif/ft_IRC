@@ -72,8 +72,7 @@ std :: string server :: prvmsg_chnl(request req, int fd)
 		std::pair<client *, int> user = it->second->pick_user_role(fd);
 		if (user.second == -1 )
 			return (format_msg("404", this->_clientMap[fd]->get_Nickname(), req.args[0].append(" :Cannot send to channel")));
-		std::string msg("PRIVMSG " + req.args[0] + " :" + req.args[1] + "\n");
-		// _sendToAllUsers(it->second, i, msg);
+		std::string msg(req.cmd + " " + req.args[0] + " :" + req.args[1] + "\n");
         send_to_allUsers(it->second, fd, msg, false);
 	}
 	else
@@ -98,19 +97,10 @@ std :: string server :: prvmsg(request req, int fd)
                 return(prvmsg_user(req, fd));
             else
                 return(prvmsg_chnl(req, fd));
-
         }
-
     }
     return("");
 }
 
 
 
-// 404    "<client> <channel> :Cannot send to channel"
-// 407
-// 411
-// 412
-// 413
-// 414
-// 301

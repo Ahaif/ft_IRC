@@ -25,8 +25,12 @@ void server ::new_connection()
 		std::cout << "accept() error: " << strerror(errno) << std::endl;
 	else
 	{
+		
 		add_to_poll(clientFD);
-		std::string welcome = "First Connection This is a Welcome MSG\n";
+		std::string welcome = "";
+		welcome.append( RED"███████████████████████████████████████████████████████████████████████████████████████\n" RESET);
+		welcome.append( GREEN "First Connection This is a Welcome MSG\n" RESET);
+		welcome.append( RED"███████████████████████████████████████████████████████████████████████████████████████\n" RESET);
 		if (send(clientFD, welcome.c_str(), welcome.length(), 0) == -1)
 			std::cout << "send() error: " << strerror(errno) << std::endl;
 		std::cout << "new connection from "
@@ -62,6 +66,20 @@ server::~server()
 {
 	if (this->_pfds)
 		delete[] this->_pfds;
+		std::map<int, client *>::iterator it = this->_clientMap.begin();
+		while (it != this->_clientMap.end())
+		{
+			delete it->second;
+			it++;
+		}
+		this->_clientMap.clear();
+		std::map<std::string, Channel *>::iterator itC = this->_channels.begin();
+		while (itC != this->_channels.end())
+		{
+			delete itC->second;
+			itC++;
+		}
+		this->_channels.clear();
 }
 
 void server::send_replay(client *client, std::string replayNb, std::string replay)
@@ -130,7 +148,6 @@ std ::string server ::quit_cmd(request req, int fd)
 	std::map<std::string, Channel *>::iterator it = _channels.begin();
 	while (it != _channels.end())
 	{
-		// we can optimize , instead of loopig throug all channel we work with the map joined_chanels in client
 		if (it->second->isMember(_clientMap[fd]))
 		{
 			send_to_allUsers(it->second, fd, ans, false);
