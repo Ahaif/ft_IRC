@@ -57,7 +57,7 @@ std ::string server ::registerName(request req, int fd)
 		return (format_msg("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
 	}
 
-	return ("Nick Name setup  succesfly\n");
+	return ("");
 };
 
 

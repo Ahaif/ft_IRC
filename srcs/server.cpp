@@ -27,12 +27,6 @@ void server ::new_connection()
 	{
 		
 		add_to_poll(clientFD);
-		std::string welcome = "";
-		welcome.append( RED"███████████████████████████████████████████████████████████████████████████████████████\n" RESET);
-		welcome.append( GREEN "First Connection This is a Welcome MSG\n" RESET);
-		welcome.append( RED"███████████████████████████████████████████████████████████████████████████████████████\n" RESET);
-		if (send(clientFD, welcome.c_str(), welcome.length(), 0) == -1)
-			std::cout << "send() error: " << strerror(errno) << std::endl;
 		std::cout << "new connection from "
 				  << inet_ntoa(((struct sockaddr_in *)&remotaddr)->sin_addr)
 				  << " on socket " << clientFD << std::endl;
