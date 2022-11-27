@@ -11,9 +11,9 @@ std::string server::set_channel_mode(request req, int fd)
 	std::string message;
 	if (it != _channels.end())
 	{
-		if (it->second->isMember(_clientMap[fd]) == true)
+		if (it->second->isMember(_clientMap[fd]) == true || req.args.size() == 1)
 		{
-			if (it->second->isOperator(_clientMap[fd]) == true)
+			if (it->second->isOperator(_clientMap[fd]) == true || req.args.size() == 1)
 			{
 				if (req.args.size() == 1)
 					send_replay1(clnt, prefix, "324", nick, req.args[0] + " +" + it->second->get_modes());
@@ -28,7 +28,7 @@ std::string server::set_channel_mode(request req, int fd)
 							if (mode == '-')
 								status = false;
 						}
-						else if (mode == 'i' || mode == 'm' || mode == 'p' || mode == 's' || mode == 't')
+						else if (mode == 'i' || mode == 'm' || mode == 'p' || mode == 's' || mode == 't' || mode == 'n')
 						{
 							it->second->set_mode(req.args[1][i], status, "");
 							if (status == true)
