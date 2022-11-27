@@ -33,10 +33,10 @@ request server ::split_msg(std ::string msg)
                 req.invalidMsg = true;
                 return (req);
             }
-            std :: cout << "msg size is: " << msg.length() << std :: endl;
-            int res = msg.length() -1;
-            req.args.push_back(msg.substr(i + 1,res));
-    
+            std ::cout << "msg size is: " << msg.length() << std ::endl;
+            int res = msg.length() - 1;
+            req.args.push_back(msg.substr(i + 1, res));
+
             req.cmd = req.args[0];
             req.args.erase(req.args.begin());
             if (flag > 1)
@@ -62,6 +62,10 @@ request server ::split_msg(std ::string msg)
 
 std ::string server ::parse_request(std ::string msg, int clientFd)
 {
+    client *clnt = _clientMap[clientFd];
+    std::string prefix = ":" + _name + " ";
+    std::string nick = clnt->get_Nickname();
+
     std::string tmp(msg);
     request req(split_msg(tmp));
     std :: cout << "req.args.size() is: " << req.args.size() << std :: endl;
@@ -72,8 +76,6 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
         std ::cout << "Args requests : " << req.args[i] << std ::endl;
     }
     std ::cout << "-----------------" << std ::endl;
-    if (req.invalidMsg)
-        return ("Invalid message!\n");
     if (req.cmd == "PASS")
         return (set_pssw(req, clientFd));
     else if (req.cmd == "NICK")
@@ -103,18 +105,16 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     else if (req.cmd == "PART")
         return (part_command(req, clientFd));
     else if (req.cmd == "QUIT")
-        return(quit_cmd(req, clientFd));
+        return (quit_cmd(req, clientFd));
     else if (req.cmd == "SENDFILE")
         return (" execute Pass CMD");
     else if (req.cmd == "GETFILE")
         return (" execute Pass CMD");
-    else if (req.cmd == "BOT")
-        return (bot_lunch(req, clientFd));
-    else if (req.cmd == "LS")
-    {
-       list_Cnickname();
-       return("nicknames listed");
-    }
+    else if (req.cmd == "PONG")
+        return ("");
     else
-        return ("Invalid cmd\n");
+    {
+        send_replay1(clnt, prefix, "421", nick, req.cmd + " " + ERR_UNKNOWNCOMMAND);
+        return ("");
+    }
 }

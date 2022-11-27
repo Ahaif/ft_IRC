@@ -23,6 +23,7 @@
 #define RPL_ENDOFNAMES ":End of /NAMES list"
 #define RPL_LISTSTART "Channel :Users  Name"
 #define RPL_LISTEND ":End of /LIST"
+#define ERR_UNKNOWNCOMMAND ":Unknown command"
 
 
 #endif
