@@ -21,6 +21,15 @@ void server :: remove_from_poll(int fd)
     close(this->_pfds[fd].fd);
 	this->_pfds[fd] = this->_pfds[this->_online_client - 1];
     //delete client from map
+    std::vector<std::string>::iterator it = _clientName.begin();
+    for (; it != _clientName.end(); it++)
+    {
+        if (*it == this->_clientMap[fd]->get_Nickname())
+        {
+            _clientName.erase(it);
+            break;
+        }
+    }
     this->_clientMap.erase(this->_pfds[fd].fd);
 	this->_online_client--;
 }
