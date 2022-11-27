@@ -27,6 +27,14 @@ Channel::Channel(std::string channelName, std::string channelKey, client *Create
     _topic = "";
     _prefix = '#';
     _onlineUsers = 0;
+    _isinviteonly = false;
+    _isPrivate = false;
+    _isSecret = false;
+    _isModerated = false;
+    _isTopicSet = false;
+    _isLimitSet = false;
+    _isKeySet = false;
+    _limitUsers = -1;
 }
 Channel::Channel(const Channel &x)
 {
