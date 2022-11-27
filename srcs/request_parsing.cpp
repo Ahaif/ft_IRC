@@ -110,6 +110,8 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
         return (" execute Pass CMD");
     else if (req.cmd == "GETFILE")
         return (" execute Pass CMD");
+    else if (req.cmd == "BOT")
+        return (bot_lunch(req, clientFd));
     else if (req.cmd == "PONG")
         return ("");
     else

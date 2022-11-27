@@ -97,7 +97,11 @@ std::vector<std::string> server::split(std::string str, std::string sep)
 		found = str.find(sep, start);
 		args.push_back(str.substr(start, found - start));
 		start = found + sep.length();
+		while(str[start] == ' ')
+			start++;
 	}
+	if(args[args.size() - 1].empty())
+		args.pop_back();
 	return (args);
 }
 
