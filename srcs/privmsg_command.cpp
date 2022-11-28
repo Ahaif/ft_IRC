@@ -98,7 +98,7 @@ std ::string server ::prvmsg(request req, int fd)
 				{
 					std::pair<client *, int> user = it->second->pick_user_role(fd);
 					if (user.second == -1)
-						send_replay1(clnt, prefix, "404", nick, receiver[i] + " :Cannot send to channel");
+						send_replay(clnt, prefix, "404", nick, receiver[i] + " :Cannot send to channel");
 					else
 					{
 						std::string msg(req.cmd + " " + receiver[i] + " :" + req.args[1] + "\n");
@@ -106,13 +106,13 @@ std ::string server ::prvmsg(request req, int fd)
 					}
 				}
 				else
-					send_replay1(clnt, prefix, "401", nick, receiver[i] + " :No such nick/channel");
+					send_replay(clnt, prefix, "401", nick, receiver[i] + " :No such nick/channel");
 			}
 			else
 			{
 				int userFd = _find_FdBy_NickName(receiver[i]);
 				if (userFd == -1)
-					send_replay1(clnt, prefix, "401", nick, receiver[i] + " :No such nick/channel");
+					send_replay(clnt, prefix, "401", nick, receiver[i] + " :No such nick/channel");
 				else
 				{
 					std::string ans = this->_clientMap[fd]->getUserPerfix();

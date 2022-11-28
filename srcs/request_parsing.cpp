@@ -60,13 +60,13 @@ request server ::split_msg(std ::string msg)
     return (req);
 }
 
-bool    cmd_contain(std :: string msg)
+bool cmd_contain(std ::string msg)
 {
 
-        if(msg[msg.size() -1] == 10)
-            return (true);
-        else
-            return(false);
+    if (msg[msg.size() - 1] == 10)
+        return (true);
+    else
+        return (false);
 }
 
 std ::string server ::parse_request(std ::string msg, int clientFd)
@@ -74,9 +74,6 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
     client *clnt = _clientMap[clientFd];
     std::string prefix = ":" + _name + " ";
     std::string nick = clnt->get_Nickname();
-
-    // if(!cmd_contain(msg))
-    //     return("");
 
     std::string tmp(msg);
     request req(split_msg(tmp));
@@ -131,7 +128,7 @@ std ::string server ::parse_request(std ::string msg, int clientFd)
         return ("");
     else
     {
-        send_replay1(clnt, prefix, "421", nick, req.cmd + " " + ERR_UNKNOWNCOMMAND);
+        send_replay(clnt, prefix, "421", nick, req.cmd + " " + ERR_UNKNOWNCOMMAND);
         return ("");
     }
 }

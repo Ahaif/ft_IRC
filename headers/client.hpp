@@ -38,13 +38,7 @@ class client
         std :: string                       _UserName;
         std :: string                       _FullName;
         const std::string					_Host;
-		std::string							_ID;
-		struct sockaddr_storage				_remotaddr;
-		socklen_t							_addrlen;
         struct Modes                        _modes;
-
-        //add Modes data as struct
-		//add map fpr joined channel
         std :: map<std :: string, Channel *>         _joinedChannels;
         std :: map<std :: string, Channel *>         _invitedChannels;
 
@@ -60,16 +54,10 @@ class client
         int                     get_Clientfd();
         bool                    get_registration();
         bool                    get_connection();
-        bool                    get_is_operator();
         std :: string           get_Nickname();
         std :: string           get_Username();
         std :: string           get_FullName();
         const std :: string     get_Host();
-        std :: string           get_ID();
-        struct sockaddr_storage get_remoteaddr();
-        socklen_t               get_addrlen();
-        struct Modes            get_modes();
-
         std::string		getUserPerfix() const;
 
     //setters
@@ -81,21 +69,13 @@ class client
         void    set_Username(std :: string userName);
         void    set_FullName(std :: string fullName);
         void    set_Host(const std :: string host);
-        void    set_ID(std :: string id);
-        void    set_remoteaddr(struct sockaddr_storage rmAdress);
-        void    set_addrlen(socklen_t addLen);
         void    set_operator();
         std :: string   set_mode(std :: string);
-        void    leave_channel(std :: string chanelId);
-        void    leave_all_chnl();
         void    add_invited_channel(std :: string channelName, Channel *chanel);
         bool    isHasNoChannel();
         void    part_from_channel(Channel *channel);
         void    add_channel(std :: string channelName, Channel *chanel);
         bool    is_invited_to(Channel *invitedChannel);
-
-    //function to check if the client is joined to a channel 
-
 };
 
 

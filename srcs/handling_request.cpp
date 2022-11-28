@@ -2,14 +2,10 @@
 
 void server ::handle_request(int position)
 {
-	// split request
 	char buf[5000];
 	static std :: string rest;
-
 	int clientFd = _pfds[position].fd;
-
 	int nbytes = recv(clientFd, buf, sizeof(buf), 0);
-
 	if (nbytes <= 0)
 	{
 		if (nbytes == 0)
@@ -24,14 +20,6 @@ void server ::handle_request(int position)
 	}
 	else
 	{
-
-		// for(size_t i = 0; i < strlen(buf); i++)
-		// {
-		// 	std :: cout << static_cast<int>(buf[i]) << " ";
-		// }
-		// std :: cout << "\n";
-		// std :: cout << "message end is " << static_cast<int>(buf[strlen(buf) - 1]) << std :: endl;
-
 		buf[nbytes] = 0;
 		if(buf[strlen(buf) -1] != 10 && buf[strlen(buf) - 1] != 127)
 		{
@@ -46,7 +34,6 @@ void server ::handle_request(int position)
 				rest.clear();
 			}
 			message.append(buf);
-			// std::string message(buf, strlen(buf) - 1);
 			if (message[message.size()- 1] ==  '\r')
 				message.erase(message.size() - 1);
 			std::string ret = parse_request(message, clientFd);

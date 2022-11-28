@@ -45,14 +45,10 @@ std ::string server ::registerName(request req, int fd)
 			else
 				return (format_msg("433", _clientMap[fd]->get_Nickname(), ERR_NICKNAMEINUSE));
 	}
-
-
-	// ADD option when a user want to change his name -> done
 	this->_clientMap[fd]->set_Nickname(req.args[0]);
 	this->_clientName.push_back(this->_clientMap[fd]->get_Nickname());
 	if (this->_clientMap[fd]->get_Username() != "")
 	{
-		// this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
 		this->_clientMap[fd]->set_connection();
 		return (format_msg("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
 	}
@@ -90,7 +86,6 @@ std ::string server ::set_userName(request req, int fd)
 	this->_clientMap[fd]->set_registration();
 	if (_clientMap[fd]->get_Nickname() != "")
 	{
-		// this->_clientMap[fd]->set_ID(this->_clientMap[fd]->get_Nickname() + "!" + this->_clientMap[fd]->get_Username() + "@" + this->_clientMap[fd]->get_Host());
 		this->_clientMap[fd]->set_connection();
 		return (format_msg("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
 	}

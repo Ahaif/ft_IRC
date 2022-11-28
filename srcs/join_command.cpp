@@ -9,9 +9,9 @@ std ::string server ::join_chnl(request req, int fd)
     std::string nick = clnt->get_Nickname();
 
     if (clnt->get_registration() == false)
-        send_replay1(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
+        send_replay(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
     else if (req.args.size() == 0 || (req.args.size() == 1 && req.args[0] == ""))
-        send_replay1(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
+        send_replay(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
     else
     {
         names = split(req.args[0], ",");
@@ -24,7 +24,7 @@ std ::string server ::join_chnl(request req, int fd)
             if (_channels.find(names[i]) == _channels.end())
             {
                 if (names[i][0] != '#')
-                    send_replay1(clnt, prefix, "403", nick, names[i] + " " + ERR_NOSUCHCHANNEL);
+                    send_replay(clnt, prefix, "403", nick, names[i] + " " + ERR_NOSUCHCHANNEL);
                 else
                 {
                     _channels[names[i]] = new Channel(names[i], keys[i], _clientMap[fd]);
@@ -37,7 +37,7 @@ std ::string server ::join_chnl(request req, int fd)
                 }
             }
             else if (_channels[names[i]]->isInviteOnly() == true && clnt->is_invited_to(_channels[names[i]]) == false)
-                send_replay1(clnt, prefix, "473", nick, names[i] + " " + ERR_INVITEONLYCHAN);
+                send_replay(clnt, prefix, "473", nick, names[i] + " " + ERR_INVITEONLYCHAN);
             else if (_channels[names[i]]->get_key() == keys[i])
             {
                 if (_channels[names[i]]->isInviteOnly() == true)
@@ -52,7 +52,7 @@ std ::string server ::join_chnl(request req, int fd)
                 names_command(newreq, fd);
             }
             else
-                send_replay1(clnt, prefix, "475", nick, names[i] + " " + ERR_BADCHANNELKEY);
+                send_replay(clnt, prefix, "475", nick, names[i] + " " + ERR_BADCHANNELKEY);
         }
     }
     return "";

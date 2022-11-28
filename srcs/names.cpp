@@ -10,7 +10,7 @@ std::string server::names_command(request req, int fd)
 	std::set<std::string> nickSet;
 
 	if (clnt->get_registration() == false)
-		send_replay1(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
+		send_replay(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
 	else if (req.args.size() != 0 && req.args[0] != "")
 	{
 		std::vector<std::string> names = split(req.args[0], ",");
@@ -21,9 +21,9 @@ std::string server::names_command(request req, int fd)
 			{
 				message = "= " + it->first + " :";
 				message += it->second->getMembersNickNames();
-				send_replay1(clnt, prefix, "353", nick, message);
+				send_replay(clnt, prefix, "353", nick, message);
 			}
-			send_replay1(clnt, prefix, "366", nick, names[i] + " " + RPL_ENDOFNAMES);
+			send_replay(clnt, prefix, "366", nick, names[i] + " " + RPL_ENDOFNAMES);
 		}
 	}
 	else
@@ -35,8 +35,8 @@ std::string server::names_command(request req, int fd)
 			{
 				message = "= " + it->first + " :";
 				message += it->second->getMembersNickNames();
-				send_replay1(clnt, prefix, "353", nick, message);
-				send_replay1(clnt, prefix, "366", nick, it->first + " " + RPL_ENDOFNAMES);
+				send_replay(clnt, prefix, "353", nick, message);
+				send_replay(clnt, prefix, "366", nick, it->first + " " + RPL_ENDOFNAMES);
 			}
 			else
 			{
@@ -64,9 +64,9 @@ std::string server::names_command(request req, int fd)
 			}
 			message = "= * :";
 			message += nickNames;
-			send_replay1(clnt, prefix, "353", nick, message);
+			send_replay(clnt, prefix, "353", nick, message);
 		}
-		send_replay1(clnt, prefix, "366", nick, std::string("* ") + RPL_ENDOFNAMES);
+		send_replay(clnt, prefix, "366", nick, std::string("* ") + RPL_ENDOFNAMES);
 	}
 	return "";
 }

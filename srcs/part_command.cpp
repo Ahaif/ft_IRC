@@ -5,10 +5,10 @@ std::vector<std::string> server::comma_sep(std ::string chnlist)
     std::vector<std::string> ret;
     size_t pos = 0;
     pos = chnlist.find(",");
-    if((pos = chnlist.find(",")) == std::string::npos)
+    if ((pos = chnlist.find(",")) == std::string::npos)
     {
         ret.push_back(chnlist);
-        return(ret);
+        return (ret);
     }
     while ((pos = chnlist.find(",")) != std::string::npos)
     {
@@ -29,9 +29,9 @@ std::string server::part_command(request req, int fd)
     std::string message;
 
     if (clnt->get_registration() == false)
-        send_replay1(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
+        send_replay(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
     else if (req.args.size() == 0 || (req.args.size() == 1 && req.args[0] == ""))
-        send_replay1(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
+        send_replay(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
     else
     {
         names = split(req.args[0], ",");
@@ -57,10 +57,10 @@ std::string server::part_command(request req, int fd)
                     }
                 }
                 else
-                    send_replay1(clnt, prefix, "442", nick, names[i] + " " + ERR_NOTONCHANNEL);
+                    send_replay(clnt, prefix, "442", nick, names[i] + " " + ERR_NOTONCHANNEL);
             }
             else
-                send_replay1(clnt, prefix, "403", nick, names[i] + " " + ERR_NOSUCHCHANNEL);
+                send_replay(clnt, prefix, "403", nick, names[i] + " " + ERR_NOSUCHCHANNEL);
         }
     }
     return "";

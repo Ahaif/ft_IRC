@@ -13,7 +13,7 @@ std::string server::notice_command(request req, int fd)
 				std::map<int, client *>::iterator it2 = it->second->getMembers().begin();
 				for (; it2 != it->second->getMembers().end(); it2++)
 				{
-					send_replay1(it2->second, clnt->getUserPerfix(), req.cmd, req.args[0], ":" + req.args[1]);
+					send_replay(it2->second, clnt->getUserPerfix(), req.cmd, req.args[0], ":" + req.args[1]);
 				}
 			}
 		}
@@ -24,7 +24,7 @@ std::string server::notice_command(request req, int fd)
 			{
 				if (it->second->get_Nickname() == req.args[0])
 				{
-					send_replay1(it->second, clnt->getUserPerfix(), req.cmd, req.args[0], ":" + req.args[1]);
+					send_replay(it->second, clnt->getUserPerfix(), req.cmd, req.args[0], ":" + req.args[1]);
 					break;
 				}
 			}

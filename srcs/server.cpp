@@ -76,17 +76,6 @@ server::~server()
 		this->_channels.clear();
 }
 
-void server::send_replay(client *client, std::string replayNb, std::string replay)
-{
-	std::string nickName = client->get_Nickname();
-	std::string message;
-
-	if (nickName.empty())
-		nickName = "*";
-	message = ":" + this->_name + " " + replayNb + " " + nickName + " " + replay + "\n";
-	write(client->get_Clientfd(), message.c_str(), message.size());
-}
-
 std::vector<std::string> server::split(std::string str, std::string sep)
 {
 	std::vector<std::string> args;
@@ -112,17 +101,8 @@ std::string server ::format_msg(std::string num, std::string nickname, std::stri
 	return (":" + this->_name + " " + num + " " + nickname + " " + message + "\n");
 }
 
-int ::server ::list_Cnickname()
-{
-	int i = 0;
-	for (; i < (int)this->_clientMap.size(); i++)
-	{
-		std ::cout << _clientMap[i]->get_Nickname() << std ::endl;
-	}
-	return (i);
-}
 
-void server::send_replay1(client *client, std::string prefix, std::string replayNb, std::string nick, std::string replay)
+void server::send_replay(client *client, std::string prefix, std::string replayNb, std::string nick, std::string replay)
 {
 	std::string message = "";
 

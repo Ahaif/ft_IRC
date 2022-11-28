@@ -5,27 +5,16 @@ Channel::Channel()
     _name = "";
     _topic = "";
     _key = "";
-    _prefix = '#';
     _creator = NULL;
     _onlineUsers = 0;
 }
 
-Channel::Channel(std::string channelName, client *Creater)
-{
-    _name = channelName;
-    _topic = "";
-    _key = "";
-    _prefix = '#';
-    _creator = Creater;
-    _onlineUsers = 0;
-}
 Channel::Channel(std::string channelName, std::string channelKey, client *Creater)
 {
     _name = channelName;
     _key = channelKey;
     _creator = Creater;
     _topic = "";
-    _prefix = '#';
     _onlineUsers = 0;
     _isinviteonly = false;
     _isPrivate = false;
@@ -47,13 +36,11 @@ Channel &Channel::operator=(const Channel &rhs)
         _name = rhs._name;
         _topic = rhs._topic;
         _key = rhs._key;
-        _prefix = rhs._prefix;
         _creator = rhs._creator;
         _onlineUsers = rhs._onlineUsers;
         _members = rhs._members;
         _operators = rhs._operators;
         _voice = rhs._voice;
-        _banned = rhs._banned;
     }
     return *this;
 }
@@ -74,21 +61,6 @@ void Channel::addMember(client *newMember, int isOpertor, int isVoice)
     _onlineUsers++;
 }
 
-
-int	Channel::add_Operator( client *member )
-{
-	if (std::find(this->_banned.begin(), this->_banned.end(), member->get_Nickname()) != this->_banned.end())
-		return (BANNEDFROMCHAN);
-	if (this->_operators.find(member->get_Clientfd()) == this->_operators.end())
-	{
-		this->_operators.insert(std::pair<int, client *>(member->get_Clientfd(), member));
-		this->_onlineUsers++;
-		return (USERISJOINED);
-	};
-	return (-1);
-};
-
-
 std::pair<client *, int> Channel :: pick_user_role(int i)
 {
     std::map<int, client *>::iterator it = this->_operators.find(i);
@@ -108,50 +80,6 @@ std :: string Channel :: get_name()
 {
     return(this->_name);
 }
-
-
-void :: Channel :: print_Operatorchnl()
-{
-    std::map<int, client *> :: iterator it; 
-    for(it = this->_operators.begin(); it != this->_operators.end(); it++)
-    {
-        std :: cout << "Operator is : " << it->second->get_Nickname() << std :: endl;
-
-    }
-}
-
-int :: Channel :: memberSize()
-{
-    if(this->_members.size() == 0)
-        return (0);
-    else
-        return(this->_members.size());
-}
-
-// void	Channel:: delete_operator( int i)
-// {
-// 	this->_operators.erase(i);
-// 	this->_onlineUsers--;
-// };
-
-// void	Channel:: delete_voice( int i)
-// {
-// 	this->_voice.erase(i);
-// 	this->_onlineUsers--;
-// };
-
-// void	Channel::removeBanned( std::string NickName )
-// {
-// 	if (std::find(this->_banned.begin(), this->_banned.end(), NickName) != this->_banned.end())
-// 		return ;
-// 	this->_banned.erase(std::find(this->_banned.begin(), this->_banned.end(), NickName));
-// };
-
-// void	Channel:: delete_member( int i)
-// {
-// 	this->_members.erase(i);
-// 	this->_onlineUsers--;
-// };
 
 void client ::add_channel(std ::string channelName, Channel *chanel)
 {
@@ -181,7 +109,6 @@ void Channel::removeMember(client *Member)
     _operators.erase(Member->get_Clientfd());
     _voice.erase(Member->get_Clientfd());
     _onlineUsers--;
-    std::cout << "Channel: " << _name << " has " << _onlineUsers << " users" << std::endl;
 }
 
 
@@ -272,7 +199,6 @@ bool Channel::isTopicSet()
 std::string Channel::get_modes()
 {
     std::string modes = "";
-    std::cout << "channel mode end 1" << std::endl;
     if (this->_isinviteonly == true)
         modes += "i";
     if (this->_isKeySet == true)

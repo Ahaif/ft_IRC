@@ -8,9 +8,9 @@ std::string server::invite_command(request req, int fd)
 	client *invited;
 
 	if (clnt->get_registration() == false)
-		send_replay1(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
+		send_replay(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
 	else if (req.args.size() < 2 || (req.args.size() == 2 && req.args[1] == ""))
-		send_replay1(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
+		send_replay(clnt, prefix, "461", nick, req.cmd + " " + ERR_NEEDMOREPARAMS);
 	else if (_channels.find(req.args[1]) != _channels.end())
 	{
 		if (_channels[req.args[1]]->isMember(clnt))
@@ -29,7 +29,7 @@ std::string server::invite_command(request req, int fd)
 				if (it != _clientMap.end())
 				{
 					if (_channels[req.args[1]]->isMember(invited) == true)
-						send_replay1(clnt, prefix, "443", nick, req.args[0] + " " ERR_USERONCHANNEL);
+						send_replay(clnt, prefix, "443", nick, req.args[0] + " " ERR_USERONCHANNEL);
 					else
 					{
 						prefix = clnt->getUserPerfix();
@@ -38,20 +38,20 @@ std::string server::invite_command(request req, int fd)
 							invited->add_invited_channel(req.args[1], _channels[req.args[1]]);
 							_channels[req.args[1]]->add_invited_client(invited);
 						}
-						send_replay1(invited, prefix, "INVITE", req.args[0], req.args[1]);
-						send_replay1(clnt, prefix, "341", nick, req.args[1] + " " + req.args[0]);
+						send_replay(invited, prefix, "INVITE", req.args[0], req.args[1]);
+						send_replay(clnt, prefix, "341", nick, req.args[1] + " " + req.args[0]);
 					}
 				}
 				else
-					send_replay1(clnt, prefix, "401", nick, req.args[0] + " " + ERR_NOSUCHNICK);
+					send_replay(clnt, prefix, "401", nick, req.args[0] + " " + ERR_NOSUCHNICK);
 			}
 			else
-				send_replay1(clnt, prefix, "482", nick, req.args[1] + " " + ERR_CHANOPRIVSNEEDED);
+				send_replay(clnt, prefix, "482", nick, req.args[1] + " " + ERR_CHANOPRIVSNEEDED);
 		}
 		else
-			send_replay1(clnt, prefix, "442", nick, req.args[1] + " " + ERR_NOTONCHANNEL);
+			send_replay(clnt, prefix, "442", nick, req.args[1] + " " + ERR_NOTONCHANNEL);
 	}
 	else
-		send_replay1(clnt, prefix, "401", nick, req.args[1] + " " + ERR_NOSUCHNICK);
+		send_replay(clnt, prefix, "401", nick, req.args[1] + " " + ERR_NOSUCHNICK);
 	return "";
 }
