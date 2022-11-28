@@ -258,3 +258,8 @@ void Channel::remove_from_channel(client *member)
     if (_invited.find(clientFd) != _invited.end())
         _invited.erase(clientFd);
 }
+
+int Channel::get_limitUsers()
+{
+    return _limitUsers;
+}

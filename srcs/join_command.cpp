@@ -38,6 +38,8 @@ std ::string server ::join_chnl(request req, int fd)
             }
             else if (_channels[names[i]]->isInviteOnly() == true && clnt->is_invited_to(_channels[names[i]]) == false)
                 send_replay(clnt, prefix, "473", nick, names[i] + " " + ERR_INVITEONLYCHAN);
+            else if (_channels[names[i]]->isLimitSet() == true && (_channels[names[i]]->get_onlineUsers() >= _channels[names[i]]->get_limitUsers()))
+                send_replay(clnt, prefix, "471", nick, names[i] + " " + ERR_CHANNELISFULL);
             else if (_channels[names[i]]->get_key() == keys[i])
             {
                 if (_channels[names[i]]->isInviteOnly() == true)

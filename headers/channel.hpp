@@ -44,6 +44,7 @@ public:
     bool            isOperator(client *newMember);
     int             get_onlineUsers();
     std::string     get_topic();
+    int             get_limitUsers();
     void            set_topic(std::string newTopic);
     bool            isInviteOnly();
     bool            isPrivate();

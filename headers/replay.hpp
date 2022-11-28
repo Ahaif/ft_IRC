@@ -22,6 +22,7 @@
 #define RPL_LISTSTART "Channel :Users  Name"
 #define RPL_LISTEND ":End of /LIST"
 #define ERR_UNKNOWNCOMMAND ":Unknown command"
+#define ERR_CHANNELISFULL ":Cannot join channel (+l)"
 
 
 #endif

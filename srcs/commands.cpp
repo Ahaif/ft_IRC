@@ -23,11 +23,16 @@ std ::string server ::set_pssw(request req, int fd)
 
 std ::string server ::registerName(request req, int fd)
 {
+	client *clnt = _clientMap[fd];
+	std::string prefix = ":" + _name + " ";
+	std::string nick = clnt->get_Nickname();
+
 	if (!this->_clientMap[fd]->get_connection())
 		return ("You should connect first with PASS cmd\n");
 	else if (req.args.size() < 1)
 	{
-		return (":No nickname given\n");
+		send_replay(clnt, prefix, "451", nick, ":No nickname given");
+		return ("");
 	}
 	for(size_t k = 0; k < req.args.size(); k++)
 	{
@@ -72,7 +77,7 @@ int		server::_find_FdBy_NickName(std::string NickName)
 std ::string server ::set_userName(request req, int fd)
 {
 	if (!this->_clientMap[fd]->get_connection())
-		return ("You need to authenticate first");
+		return ("You should connect first with PASS cmd\n");
 	if (this->_clientMap[fd]->get_registration())
 	{
 		return (format_msg("462", _clientMap[fd]->get_Nickname(), ERR_ALREADYREGISTERED));
@@ -95,8 +100,15 @@ std ::string server ::set_userName(request req, int fd)
 
 std ::string server ::set_Oper(request req, int fd)
 {
-	if (!this->_clientMap[fd]->get_registration())
-		return ("You have not registered");
+	client *clnt = _clientMap[fd];
+	std::string prefix = ":" + _name + " ";
+	std::string nick = clnt->get_Nickname();
+
+	if (clnt->get_registration() == false)
+	{
+		send_replay(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
+		return ("");
+	}
 	if (req.args.size() < 2)
 		return (format_msg("461", _clientMap[fd]->get_Nickname(), ERR_NEEDMOREPARAMS));
 	if (req.args[0] != "ADMIN")
@@ -145,8 +157,7 @@ std ::string client ::set_mode(std::string param)
 		this->_modes.restricted = val;
 	if (param[1] == 'O' && val)
 		this->_modes.localOp = val;
-	// std :: cout << "NEW MODE for user is: " <<  this->_modes.invisible <<std :: endl;
-	return ("user mode set successfly.... ");
+	return ("");
 }
 
 std ::string server ::set_user_mode(request req, int fd)
