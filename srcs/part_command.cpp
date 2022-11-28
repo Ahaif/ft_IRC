@@ -50,7 +50,11 @@ std::string server::part_command(request req, int fd)
                     _channels[names[i]]->remove_from_channel(clnt);
                     clnt->part_from_channel(_channels[names[i]]);
                     if (_channels[names[i]]->get_onlineUsers() == 0)
+                    {
+                        Channel *tmp = _channels[names[i]];
                         _channels.erase(names[i]);
+                        delete tmp;
+                    }
                 }
                 else
                     send_replay1(clnt, prefix, "442", nick, names[i] + " " + ERR_NOTONCHANNEL);

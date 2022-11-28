@@ -135,27 +135,3 @@ void server::send_replay1(client *client, std::string prefix, std::string replay
 	std::cout << "send: " << message << std::endl;
 	write(client->get_Clientfd(), message.c_str(), message.size());
 }
-
-std ::string server ::quit_cmd(request req, int fd)
-{
-	std::string ans = this->_clientMap[fd]->getUserPerfix() + "QUIT ";
-	if (req.args.size() && req.args[0] != " ")
-		ans.append(":" + req.args[0] + "\n");
-	else
-		ans.append("\n");
-	std::map<std::string, Channel *>::iterator it = _channels.begin();
-	while (it != _channels.end())
-	{
-		if (it->second->isMember(_clientMap[fd]))
-		{
-			send_to_allUsers(it->second, fd, ans, false);
-			_clientMap[fd]->leave_channel(it->first);
-			close(this->_clientMap[fd]->get_Clientfd());
-			remove_from_poll(fd);
-			it++;
-		}
-		else
-			it++;
-	}
-	return ("");
-}

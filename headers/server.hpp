@@ -80,7 +80,6 @@ class server
         std :: string               prvmsg_chnl(request req, int fd);
         std :: string               send_to_allUsers(Channel *channelName, int Senderfd, std :: string msg, bool includeSender);
         int                         sendMsg(int fd, std :: string msg);
-        std :: string               quit_cmd(request req, int fd);
         int                         list_Cnickname();
         std::string mode_command(request req, int fd);
         std::string set_channel_mode(request req, int fd);
