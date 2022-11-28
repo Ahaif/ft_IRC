@@ -60,22 +60,34 @@ request server ::split_msg(std ::string msg)
     return (req);
 }
 
+bool    cmd_contain(std :: string msg)
+{
+
+        if(msg[msg.size() -1] == 10)
+            return (true);
+        else
+            return(false);
+}
+
 std ::string server ::parse_request(std ::string msg, int clientFd)
 {
     client *clnt = _clientMap[clientFd];
     std::string prefix = ":" + _name + " ";
     std::string nick = clnt->get_Nickname();
 
+    // if(!cmd_contain(msg))
+    //     return("");
+
     std::string tmp(msg);
     request req(split_msg(tmp));
-    std :: cout << "req.args.size() is: " << req.args.size() << std :: endl;
-    std ::cout << "Cmd req is : " << req.cmd << std ::endl;
-    std ::cout << "-----------------" << std ::endl;
-    for (unsigned long i = 0; i < req.args.size(); i++)
-    {
-        std ::cout << "Args requests : " << req.args[i] << std ::endl;
-    }
-    std ::cout << "-----------------" << std ::endl;
+    // std :: cout << "req.args.size() is: " << req.args.size() << std :: endl;
+    // std ::cout << "Cmd req is : " << req.cmd << std ::endl;
+    // std ::cout << "-----------------" << std ::endl;
+    // for (unsigned long i = 0; i < req.args.size(); i++)
+    // {
+    //     std ::cout << "Args requests : " << req.args[i] << std ::endl;
+    // }
+    // std ::cout << "-----------------" << std ::endl;
     if (req.cmd == "PASS")
         return (set_pssw(req, clientFd));
     else if (req.cmd == "NICK")
