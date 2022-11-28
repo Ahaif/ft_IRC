@@ -51,6 +51,7 @@ std ::string server ::registerName(request req, int fd)
 	{
 		this->_clientMap[fd]->set_connection();
 		send_welcome_msg(fd);
+		std::cout << "Client " << _clientMap[fd]->get_Nickname() << " is connected" << std::endl;
 	}
 	return ("");
 };
@@ -87,6 +88,7 @@ std ::string server ::set_userName(request req, int fd)
 	{
 		this->_clientMap[fd]->set_connection();
 		send_welcome_msg(fd);
+		std::cout << "Client " << _clientMap[fd]->get_Nickname() << " is connected" << std::endl;
 	}
 	return ("");
 }

@@ -112,7 +112,6 @@ void server::send_replay(client *client, std::string prefix, std::string replayN
 	if (!replay.empty())
 		message += " " + replay;
 	message += "\r\n";
-	std::cout << "send: " << message << std::endl;
 	write(client->get_Clientfd(), message.c_str(), message.size());
 }
 

@@ -16,6 +16,7 @@ void server :: add_to_poll(int fd)
 void server ::remove_from_poll(int fd)
 {
     client *clnt = _clientMap[fd];
+    std::string nick = clnt->get_Nickname();
     std::vector<std::string>::iterator it = _clientName.begin();
     for (; it != _clientName.end(); it++)
     {
@@ -55,4 +56,5 @@ void server ::remove_from_poll(int fd)
     }
     delete clnt;
     close(fd);
+    std::cout << "Client " << nick << " disconnected" << std::endl;
 }

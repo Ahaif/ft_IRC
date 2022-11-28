@@ -40,8 +40,7 @@ void server ::handle_request(int position)
 			if(ret.size())
 			{
 				if (send(clientFd, ret.c_str(), ret.length(), 0) == -1)
-				std::cout << "send() error: " << strerror(errno) << std::endl;
-				std ::cout << ret << std ::endl;
+					std::cout << "send() error: " << strerror(errno) << std::endl;
 			}
 			
 		}

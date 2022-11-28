@@ -50,6 +50,7 @@ Channel::~Channel()
 
 void Channel::addMember(client *newMember, int isOpertor, int isVoice)
 {
+    std::cout << newMember->get_Nickname() << " joined " << _name << std::endl;
     _members[newMember->get_Clientfd()] = newMember;
     if (isOpertor)
     {
@@ -105,6 +106,7 @@ int Channel::get_onlineUsers()
 
 void Channel::removeMember(client *Member)
 {
+    std::cout << Member->get_Nickname() << " left " << _name << std::endl;
     _members.erase(Member->get_Clientfd());
     _operators.erase(Member->get_Clientfd());
     _voice.erase(Member->get_Clientfd());
@@ -245,6 +247,7 @@ void Channel::remove_from_channel(client *member)
 
     if (_members.find(clientFd) != _members.end())
     {
+        std::cout << member->get_Nickname() << " left " << _name << std::endl;
         _members.erase(clientFd);
         _onlineUsers--;
     }
