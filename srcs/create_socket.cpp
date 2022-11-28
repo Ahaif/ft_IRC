@@ -31,4 +31,8 @@ void server :: create_socket(std :: string port)
 		std::cerr << "listen failed" << strerror(errno) << std::endl;
 		exit(-1);
 	}
+	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+	time_t tt = std::chrono::system_clock::to_time_t(now);
+	start_time = ctime(&tt);
+	start_time.erase(start_time.find("\n"), 1);
 }

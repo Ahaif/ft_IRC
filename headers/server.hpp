@@ -45,6 +45,7 @@ private:
     std::map<std::string, Channel *> _channels;
 
 public:
+    std::string start_time;
     server(std ::string name, int max_online, std ::string port, std ::string password);
     ~server();
     void start_server();
@@ -87,6 +88,7 @@ private:
     std ::string get_online_user();
     std ::string list_all_channels();
     std ::string srv_info();
+    void send_welcome_msg(int fd);
 };
 
 #endif

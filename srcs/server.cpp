@@ -25,7 +25,6 @@ void server ::new_connection()
 		std::cout << "accept() error: " << strerror(errno) << std::endl;
 	else
 	{
-		
 		add_to_poll(clientFD);
 		std::cout << "new connection from "
 				  << inet_ntoa(((struct sockaddr_in *)&remotaddr)->sin_addr)
@@ -35,6 +34,7 @@ void server ::new_connection()
 
 void server ::start_server()
 {
+	std::cout << "Waiting for connections..." << std::endl;
 	while (42)
 	{
 		int poll_count = poll(this->_pfds, this->_online_client, -1);
@@ -47,7 +47,7 @@ void server ::start_server()
 		{
 			if (this->_pfds[i].revents & POLLIN)
 			{
-				if (this->_pfds[i].fd == this->_socketFd) //
+				if (this->_pfds[i].fd == this->_socketFd)
 					new_connection();
 				else
 					handle_request(i);
@@ -114,4 +114,17 @@ void server::send_replay(client *client, std::string prefix, std::string replayN
 	message += "\r\n";
 	std::cout << "send: " << message << std::endl;
 	write(client->get_Clientfd(), message.c_str(), message.size());
+}
+
+void server::send_welcome_msg(int fd)
+{
+	client *clnt = _clientMap[fd];
+	std::string prefix = ":" + _name + " ";
+	std::string nick = clnt->get_Nickname();
+	std::string message = "Welcome to the Internet Relay Network " + clnt->getUserPerfix();
+	send_replay(clnt, prefix, "001", nick, message);
+	message = "Your host is " + _name + ", running version 1.0";
+	send_replay(clnt, prefix, "002", nick, message);
+	message = "This server was created " + start_time;
+	send_replay(clnt, prefix, "003", nick, message);
 }

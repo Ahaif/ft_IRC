@@ -50,9 +50,8 @@ std ::string server ::registerName(request req, int fd)
 	if (this->_clientMap[fd]->get_Username() != "")
 	{
 		this->_clientMap[fd]->set_connection();
-		return (format_msg("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
+		send_welcome_msg(fd);
 	}
-
 	return ("");
 };
 
@@ -87,7 +86,7 @@ std ::string server ::set_userName(request req, int fd)
 	if (_clientMap[fd]->get_Nickname() != "")
 	{
 		this->_clientMap[fd]->set_connection();
-		return (format_msg("001", _clientMap[fd]->get_Nickname(),RPL_WELCOME));
+		send_welcome_msg(fd);
 	}
 	return ("");
 }
