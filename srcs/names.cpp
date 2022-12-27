@@ -11,7 +11,7 @@ std::string server::names_command(request req, int fd)
 
 	if (clnt->get_registration() == false)
 		send_replay(clnt, prefix, "451", nick, ERR_NOTREGISTERED);
-	else if (req.args.size() != 0 && req.args[0] != "")
+	else if (req.args.size() != 0 && (req.args[0] != "" && req.args[0] != "\r"))
 	{
 		std::vector<std::string> names = split(req.args[0], ",");
 		for (size_t i = 0; i < names.size(); i++)
